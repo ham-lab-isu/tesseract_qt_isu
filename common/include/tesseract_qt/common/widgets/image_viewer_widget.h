@@ -23,10 +23,8 @@
 #ifndef TESSERACT_GUI_COMMON_IMAGE_VIEWER_WIDGET_H
 #define TESSERACT_GUI_COMMON_IMAGE_VIEWER_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QWidget>
-#endif
+#include <memory>
 
 class QScrollBar;
 class QImage;

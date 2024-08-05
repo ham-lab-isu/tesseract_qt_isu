@@ -23,15 +23,19 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_COMMANDS_MODEL_H
 #define TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_COMMANDS_MODEL_H
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #ifndef Q_MOC_RUN
-#include <memory>
-#include <tesseract_environment/fwd.h>
-#include <QStandardItemModel>
+#include <tesseract_srdf/kinematics_information.h>
+#include <tesseract_environment/command.h>
 #endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
+
+#include <QStandardItemModel>
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class EnvironmentCommandsStandardItem;
 class EnvironmentCommandsModel : public QStandardItemModel
 {
@@ -46,7 +50,7 @@ public:
 
   std::shared_ptr<const ComponentInfo> getComponentInfo() const;
 
-  const std::vector<std::shared_ptr<const tesseract_environment::Command>>& getCommands() const;
+  const tesseract_environment::Commands& getCommands() const;
 
 private:
   std::shared_ptr<const ComponentInfo> component_info_;
@@ -54,8 +58,8 @@ private:
   EnvironmentCommandsStandardItem* getRoot();
   const EnvironmentCommandsStandardItem* getRoot() const;
 
-  void set(const std::vector<std::shared_ptr<const tesseract_environment::Command>>& commands);
-  void appendCommand(const std::shared_ptr<const tesseract_environment::Command>& command);
+  void set(const tesseract_environment::Commands& commands);
+  void appendCommand(const tesseract_environment::Command::ConstPtr& command);
   void clear();
 
   // Documentation inherited

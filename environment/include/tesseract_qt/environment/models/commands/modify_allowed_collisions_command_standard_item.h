@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_MODIFY_ALLOWED_COLLISIONS_COMMAND_STANDARD_ITEM_H
 #define TESSERACT_QT_ENVIRONMENT_MODIFY_ALLOWED_COLLISIONS_COMMAND_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_environment/commands/modify_allowed_collisions_command.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -34,17 +38,17 @@ class ModifyAllowedCollisionsCommandStandardItem : public QStandardItem
 {
 public:
   explicit ModifyAllowedCollisionsCommandStandardItem(
-      std::shared_ptr<const tesseract_environment::ModifyAllowedCollisionsCommand> command);
+      tesseract_environment::ModifyAllowedCollisionsCommand::ConstPtr command);
   explicit ModifyAllowedCollisionsCommandStandardItem(
       const QString& text,
-      std::shared_ptr<const tesseract_environment::ModifyAllowedCollisionsCommand> command);
+      tesseract_environment::ModifyAllowedCollisionsCommand::ConstPtr command);
   explicit ModifyAllowedCollisionsCommandStandardItem(
       const QIcon& icon,
       const QString& text,
-      std::shared_ptr<const tesseract_environment::ModifyAllowedCollisionsCommand> command);
+      tesseract_environment::ModifyAllowedCollisionsCommand::ConstPtr command);
   int type() const override;
 
-  std::shared_ptr<const tesseract_environment::ModifyAllowedCollisionsCommand> command;
+  tesseract_environment::ModifyAllowedCollisionsCommand::ConstPtr command;
 
 private:
   void ctor();

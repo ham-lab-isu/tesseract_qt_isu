@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_CHANGE_LINK_ORIGIN_COMMAND_STANDARD_ITEM_H
 #define TESSERACT_QT_ENVIRONMENT_CHANGE_LINK_ORIGIN_COMMAND_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_environment/commands/change_link_origin_command.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,18 +37,15 @@ namespace tesseract_gui
 class ChangeLinkOriginCommandStandardItem : public QStandardItem
 {
 public:
-  explicit ChangeLinkOriginCommandStandardItem(
-      std::shared_ptr<const tesseract_environment::ChangeLinkOriginCommand> command);
-  explicit ChangeLinkOriginCommandStandardItem(
-      const QString& text,
-      std::shared_ptr<const tesseract_environment::ChangeLinkOriginCommand> command);
-  explicit ChangeLinkOriginCommandStandardItem(
-      const QIcon& icon,
-      const QString& text,
-      std::shared_ptr<const tesseract_environment::ChangeLinkOriginCommand> command);
+  explicit ChangeLinkOriginCommandStandardItem(tesseract_environment::ChangeLinkOriginCommand::ConstPtr command);
+  explicit ChangeLinkOriginCommandStandardItem(const QString& text,
+                                               tesseract_environment::ChangeLinkOriginCommand::ConstPtr command);
+  explicit ChangeLinkOriginCommandStandardItem(const QIcon& icon,
+                                               const QString& text,
+                                               tesseract_environment::ChangeLinkOriginCommand::ConstPtr command);
   int type() const override;
 
-  std::shared_ptr<const tesseract_environment::ChangeLinkOriginCommand> command;
+  tesseract_environment::ChangeLinkOriginCommand::ConstPtr command;
 
 private:
   void ctor();

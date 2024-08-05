@@ -23,14 +23,12 @@
 #ifndef TESSERACT_QT_SCENE_GRAPH_SCENE_SCENE_GRAPH_TOOL_BAR_H
 #define TESSERACT_QT_SCENE_GRAPH_SCENE_SCENE_GRAPH_TOOL_BAR_H
 
-#ifndef Q_MOC_RUN
 #include <QToolBar>
 #include <memory>
-#endif
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class SceneGraphToolBar : public QToolBar
 {
   Q_OBJECT

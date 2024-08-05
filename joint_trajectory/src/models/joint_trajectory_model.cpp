@@ -37,8 +37,6 @@
 #include <tesseract_qt/common/utils.h>
 
 #include <tesseract_common/joint_state.h>
-#include <tesseract_environment/environment.h>
-
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
@@ -127,14 +125,8 @@ bool JointTrajectoryModel::hasJointTrajectorySet(const boost::uuids::uuid& uuid)
 
 JointTrajectoryStateItem* findJointStateItem(QStandardItem* item)
 {
-  if (!item)
-    throw std::runtime_error("findJointStateItem: Invalid item selected");
-
   if (item->type() == static_cast<int>(StandardItemType::JOINT_TRAJECTORY_SET_STATE))
     return dynamic_cast<JointTrajectoryStateItem*>(item);
-
-  if (!item->parent())
-    throw std::runtime_error("findJointStateItem: Item without a parent selected");
 
   return findJointStateItem(item->parent());
 }
@@ -142,9 +134,6 @@ JointTrajectoryStateItem* findJointStateItem(QStandardItem* item)
 tesseract_common::JointState JointTrajectoryModel::getJointState(const QModelIndex& row) const
 {
   QStandardItem* item = itemFromIndex(row);
-
-  if (!item)
-    throw std::runtime_error("getJointState: invalid item, cannot get joint state");
 
   if (item->type() == static_cast<int>(StandardItemType::JOINT_TRAJECTORY_SET_TRAJECTORY))
     throw std::runtime_error("Cannot get joint state from selected joint trajectory standard item");

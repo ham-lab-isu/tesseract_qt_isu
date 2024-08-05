@@ -25,7 +25,6 @@
 #include <tesseract_qt/common/models/standard_item_utils.h>
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
-
 #include <tesseract_scene_graph/scene_state.h>
 
 namespace tesseract_gui

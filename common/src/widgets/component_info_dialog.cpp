@@ -31,7 +31,6 @@
 #include <boost/lexical_cast.hpp>
 
 #include <QStringListModel>
-
 namespace tesseract_gui
 {
 struct ComponentInfoDialog::Implementation

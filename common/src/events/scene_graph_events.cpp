@@ -27,6 +27,7 @@
 #include <tesseract_scene_graph/link.h>
 #include <tesseract_scene_graph/joint.h>
 #include <tesseract_scene_graph/scene_state.h>
+
 #include <string>
 
 namespace tesseract_gui::events

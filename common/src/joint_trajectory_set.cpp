@@ -24,34 +24,32 @@
  * limitations under the License.
  */
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/shared_ptr.hpp>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/map.hpp>
 #include <boost/uuid/uuid_serialize.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <tesseract_common/utils.h>
 #include <tesseract_common/serialization.h>
-#include <tesseract_environment/environment.h>
-#include <tesseract_scene_graph/scene_state.h>
-#include <tesseract_environment/commands.h>
-
+//#include <tesseract_common/joint_trajectory_set.h>
 #include <tesseract_qt/common/joint_trajectory_set.h>
+#include <tesseract_environment/commands.h>
 
 namespace tesseract_common
 {
-template <class Archive>
-void JointTrajectoryInfo::serialize(Archive& ar, const unsigned int /*version*/)
-{
-  ar& BOOST_SERIALIZATION_NVP(joint_state);
-  ar& BOOST_SERIALIZATION_NVP(joint_trajectory);
-  ar& BOOST_SERIALIZATION_NVP(description);
-}
+// template <class Archive>
+// void JointTrajectoryInfo::serialize(Archive& ar, const unsigned int /*version*/)
+//{
+//  ar& BOOST_SERIALIZATION_NVP(initial_state);
+//  ar& BOOST_SERIALIZATION_NVP(trajectory);
+//}
 
 JointTrajectorySet::JointTrajectorySet(const std::unordered_map<std::string, double>& initial_state,
                                        std::string description)
@@ -75,15 +73,14 @@ JointTrajectorySet::JointTrajectorySet(const std::unordered_map<std::string, dou
 }
 
 JointTrajectorySet::JointTrajectorySet(const std::unordered_map<std::string, double>& initial_state,
-                                       std::vector<std::shared_ptr<const tesseract_environment::Command>> commands,
+                                       tesseract_environment::Commands commands,
                                        std::string description)
   : JointTrajectorySet(initial_state, description)
 {
   commands_ = std::move(commands);
 }
 
-JointTrajectorySet::JointTrajectorySet(std::unique_ptr<tesseract_environment::Environment> environment,
-                                       std::string description)
+JointTrajectorySet::JointTrajectorySet(tesseract_environment::Environment::UPtr environment, std::string description)
   : JointTrajectorySet(environment->getState().joints, std::move(description))
 {
   environment_ = std::move(environment);
@@ -93,7 +90,7 @@ boost::uuids::uuid JointTrajectorySet::getUUID() const { return uuid_; }
 
 void JointTrajectorySet::regenerateUUID() { uuid_ = boost::uuids::random_generator()(); }
 
-void JointTrajectorySet::applyEnvironment(std::unique_ptr<tesseract_environment::Environment> env)
+void JointTrajectorySet::applyEnvironment(tesseract_environment::Environment::UPtr env)
 {
   if (environment_ != nullptr)
     throw std::runtime_error("JointTrajectorySet: Cannot apply environment to trajectory set which already contains an "
@@ -106,22 +103,18 @@ void JointTrajectorySet::applyEnvironment(std::unique_ptr<tesseract_environment:
   commands_.clear();
 }
 
-std::shared_ptr<tesseract_environment::Environment> JointTrajectorySet::getEnvironment() const { return environment_; }
+tesseract_environment::Environment::Ptr JointTrajectorySet::getEnvironment() const { return environment_; }
 
-const std::vector<std::shared_ptr<const tesseract_environment::Command>>&
-JointTrajectorySet::getEnvironmentCommands() const
-{
-  return commands_;
-}
+const tesseract_environment::Commands& JointTrajectorySet::getEnvironmentCommands() const { return commands_; }
 
 JointState JointTrajectorySet::getNewTrajectoryInitialState() const
 {
   JointState prev_state = initial_state_;
-  if (!joint_trajectory_.empty() && !joint_trajectory_.back().joint_trajectory.empty())
+  if (!joint_trajectory_.empty() && !joint_trajectory_.back().second.empty())
   {
     const JointTrajectoryInfo& info = joint_trajectory_.back();
-    const JointState& last_state = info.joint_trajectory.back();
-    prev_state = info.joint_state;
+    const JointState& last_state = info.second.back();
+    prev_state = info.first;
     prev_state.time = last_state.time;
     for (Eigen::Index i = 0; i < last_state.joint_names.size(); ++i)
     {
@@ -139,12 +132,11 @@ JointState JointTrajectorySet::getNewTrajectoryInitialState() const
 void JointTrajectorySet::appendJointTrajectory(const JointTrajectory& joint_trajectory)
 {
   JointTrajectoryInfo traj_info;
-  traj_info.joint_state = getNewTrajectoryInitialState();
-  traj_info.joint_trajectory.reserve(joint_trajectory.size());
-  traj_info.description = joint_trajectory.description;
+  traj_info.first = getNewTrajectoryInitialState();
+  traj_info.second.reserve(joint_trajectory.size());
 
   std::set<std::string> prune_joint_names;
-  double last_time = traj_info.joint_state.time;
+  double last_time = traj_info.first.time;
   double current_time = 0;
   for (const auto& joint_state : joint_trajectory)
   {
@@ -172,11 +164,11 @@ void JointTrajectorySet::appendJointTrajectory(const JointTrajectory& joint_traj
   {
     prune_names.push_back(joint_name);
 
-    auto it = std::find(traj_info.joint_state.joint_names.begin(), traj_info.joint_state.joint_names.end(), joint_name);
-    prune_indices.push_back(std::distance(traj_info.joint_state.joint_names.begin(), it));
+    auto it = std::find(traj_info.first.joint_names.begin(), traj_info.first.joint_names.end(), joint_name);
+    prune_indices.push_back(std::distance(traj_info.first.joint_names.begin(), it));
   }
 
-  for (JointState& js : traj_info.joint_trajectory)
+  for (JointState& js : traj_info.second)
   {
     JointState pruned_state;
     pruned_state.joint_names = prune_names;
@@ -201,9 +193,9 @@ void JointTrajectorySet::appendJointTrajectory(const JointTrajectory& joint_traj
 
 void JointTrajectorySet::appendJointState(JointTrajectoryInfo& traj_info, const JointState& joint_state)
 {
-  JointState& prev_state = traj_info.joint_state;
-  if (!traj_info.joint_trajectory.empty())
-    prev_state = traj_info.joint_trajectory.back();
+  JointState& prev_state = traj_info.first;
+  if (!traj_info.second.empty())
+    prev_state = traj_info.second.back();
 
   JointState full_state(prev_state);
   // Only position should be copied over, zero everything else
@@ -234,7 +226,7 @@ void JointTrajectorySet::appendJointState(JointTrajectoryInfo& traj_info, const 
   }
   full_state.time = prev_state.time + joint_state.time;
 
-  traj_info.joint_trajectory.push_back(full_state);
+  traj_info.second.push_back(full_state);
 }
 
 const std::vector<JointTrajectoryInfo>& JointTrajectorySet::getJointTrajectories() const { return joint_trajectory_; }
@@ -275,5 +267,5 @@ void JointTrajectorySet::serialize(Archive& ar, const unsigned int /*version*/)
 }  // namespace tesseract_common
 
 #include <tesseract_common/serialization.h>
-TESSERACT_SERIALIZE_ARCHIVES_INSTANTIATE(tesseract_common::JointTrajectoryInfo)
+// TESSERACT_SERIALIZE_ARCHIVES_INSTANTIATE(tesseract_common::JointTrajectoryInfo)
 TESSERACT_SERIALIZE_ARCHIVES_INSTANTIATE(tesseract_common::JointTrajectorySet)

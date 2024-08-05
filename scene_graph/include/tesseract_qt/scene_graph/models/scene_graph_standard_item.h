@@ -25,7 +25,13 @@
 
 #include <memory>
 #include <QStandardItem>
-#include <tesseract_scene_graph/fwd.h>
+
+namespace tesseract_scene_graph
+{
+class SceneGraph;
+class Link;
+class Joint;
+}  // namespace tesseract_scene_graph
 
 namespace tesseract_gui
 {

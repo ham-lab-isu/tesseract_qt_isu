@@ -23,11 +23,8 @@
 #ifndef TESSERACT_GUI_COMMON_LOAD_ENVIRONMENT_WIDGET_H
 #define TESSERACT_GUI_COMMON_LOAD_ENVIRONMENT_WIDGET_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
 #include <QWidget>
-#include <QString>
-#endif
 
 namespace Ui
 {

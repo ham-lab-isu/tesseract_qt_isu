@@ -26,13 +26,10 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_environment/commands/replace_joint_command.h>
-#include <tesseract_scene_graph/joint.h>
-
 namespace tesseract_gui
 {
 ReplaceJointCommandStandardItem::ReplaceJointCommandStandardItem(
-    std::shared_ptr<const tesseract_environment::ReplaceJointCommand> command)
+    tesseract_environment::ReplaceJointCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), "Replace Joint"), command(std::move(command))
 {
   ctor();
@@ -40,7 +37,7 @@ ReplaceJointCommandStandardItem::ReplaceJointCommandStandardItem(
 
 ReplaceJointCommandStandardItem::ReplaceJointCommandStandardItem(
     const QString& text,
-    std::shared_ptr<const tesseract_environment::ReplaceJointCommand> command)
+    tesseract_environment::ReplaceJointCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), text), command(std::move(command))
 {
   ctor();
@@ -49,7 +46,7 @@ ReplaceJointCommandStandardItem::ReplaceJointCommandStandardItem(
 ReplaceJointCommandStandardItem::ReplaceJointCommandStandardItem(
     const QIcon& icon,
     const QString& text,
-    std::shared_ptr<const tesseract_environment::ReplaceJointCommand> command)
+    tesseract_environment::ReplaceJointCommand::ConstPtr command)
   : QStandardItem(icon, text), command(std::move(command))
 {
   ctor();

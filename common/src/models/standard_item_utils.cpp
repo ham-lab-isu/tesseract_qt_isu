@@ -26,10 +26,6 @@
 #include <tesseract_qt/common/utils.h>
 #include <tesseract_qt/common/models/namespace_standard_item.h>
 
-#include <QStandardItem>
-#include <QDateTime>
-#include <QIcon>
-
 namespace tesseract_gui
 {
 QList<QStandardItem*> createStandardItemFloat(const std::string& text, double data)
@@ -45,29 +41,16 @@ QList<QStandardItem*> createStandardItemFloat(const QIcon& icon, const std::stri
   return { name, value };
 }
 
-QList<QStandardItem*> createStandardItemInt(const std::string& text, long data)
+QList<QStandardItem*> createStandardItemInt(const std::string& text, int data)
 {
   return createStandardItemInt(icons::getNumericIcon(), text, data);
 }
 
-QList<QStandardItem*> createStandardItemInt(const QIcon& icon, const std::string& text, long data)
+QList<QStandardItem*> createStandardItemInt(const QIcon& icon, const std::string& text, int data)
 {
   auto* name = new QStandardItem(icon, QString::fromStdString(text));
   auto* value = new QStandardItem();  // NOLINT
-  value->setData(static_cast<qlonglong>(data), Qt::DisplayRole);
-  return { name, value };
-}
-
-QList<QStandardItem*> createStandardItemUnsigned(const std::string& text, unsigned long data)
-{
-  return createStandardItemUnsigned(icons::getNumericIcon(), text, data);
-}
-
-QList<QStandardItem*> createStandardItemUnsigned(const QIcon& icon, const std::string& text, unsigned long data)
-{
-  auto* name = new QStandardItem(icon, QString::fromStdString(text));
-  auto* value = new QStandardItem();  // NOLINT
-  value->setData(static_cast<qulonglong>(data), Qt::DisplayRole);
+  value->setData(data, Qt::DisplayRole);
   return { name, value };
 }
 

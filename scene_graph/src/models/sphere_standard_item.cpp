@@ -25,17 +25,15 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_geometry/impl/sphere.h>
-
 namespace tesseract_gui
 {
-SphereStandardItem::SphereStandardItem(std::shared_ptr<const tesseract_geometry::Sphere> sphere)
+SphereStandardItem::SphereStandardItem(tesseract_geometry::Sphere::ConstPtr sphere)
   : QStandardItem(icons::getSphereIcon(), "Sphere"), sphere(std::move(sphere))
 {
   ctor();
 }
 
-SphereStandardItem::SphereStandardItem(const QString& text, std::shared_ptr<const tesseract_geometry::Sphere> sphere)
+SphereStandardItem::SphereStandardItem(const QString& text, tesseract_geometry::Sphere::ConstPtr sphere)
   : QStandardItem(icons::getSphereIcon(), text), sphere(std::move(sphere))
 {
   ctor();
@@ -43,7 +41,7 @@ SphereStandardItem::SphereStandardItem(const QString& text, std::shared_ptr<cons
 
 SphereStandardItem::SphereStandardItem(const QIcon& icon,
                                        const QString& text,
-                                       std::shared_ptr<const tesseract_geometry::Sphere> sphere)
+                                       tesseract_geometry::Sphere::ConstPtr sphere)
   : QStandardItem(icon, text), sphere(std::move(sphere))
 {
   ctor();

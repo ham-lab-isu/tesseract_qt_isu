@@ -24,6 +24,10 @@
 #define TESSERACT_QT_COMMAND_LANGUAGE_NULL_INSTRUCTION_STANDARD_ITEM_H
 
 #include <QStandardItem>
+namespace tesseract_planning
+{
+class NullInstruction;
+}
 
 namespace tesseract_gui
 {

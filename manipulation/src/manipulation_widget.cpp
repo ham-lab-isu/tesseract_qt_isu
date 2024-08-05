@@ -8,14 +8,9 @@
 #include <tesseract_qt/common/icon_utils.h>
 #include <tesseract_qt/common/environment_manager.h>
 #include <tesseract_qt/common/environment_wrapper.h>
-#include <tesseract_qt/common/component_info.h>
 
-#include <tesseract_scene_graph/joint.h>
-#include <tesseract_srdf/kinematics_information.h>
 #include <tesseract_environment/environment.h>
 #include <tesseract_kinematics/core/kinematic_group.h>
-
-#include <console_bridge/console.h>
 
 #include <QStringList>
 #include <QStringListModel>
@@ -544,7 +539,7 @@ void ManipulationWidget::onCartesianTransformChanged(const Eigen::Isometry3d& tr
           }
         }
 
-        if (!tesseract_common::satisfiesLimits<double>(temp_seed, data_->kin_group->getLimits().joint_limits))
+        if (!tesseract_common::satisfiesPositionLimits<double>(temp_seed, data_->kin_group->getLimits().joint_limits))
           temp_seed = seed;
 
         std::unordered_map<std::string, double> state;

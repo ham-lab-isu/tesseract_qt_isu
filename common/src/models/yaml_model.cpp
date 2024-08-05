@@ -31,7 +31,6 @@
 #include <QDebug>
 #include <QFile>
 #include <QFont>
-#include <QIcon>
 
 namespace tesseract_gui
 {

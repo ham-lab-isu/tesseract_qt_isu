@@ -30,10 +30,7 @@
 namespace tesseract_gui
 {
 JointTrajectorySetItem::JointTrajectorySetItem(const tesseract_common::JointTrajectorySet& trajectory_set)
-  : QStandardItem(icons::getSetIcon(),
-                  trajectory_set.getDescription().empty() ? "Trajectory Set" :
-                                                            QString::fromStdString(trajectory_set.getDescription()))
-  , trajectory_set(trajectory_set)
+  : QStandardItem(icons::getSetIcon(), "Trajectory Set"), trajectory_set(trajectory_set)
 {
   ctor();
 }
@@ -58,10 +55,8 @@ void JointTrajectorySetItem::ctor()
 {
   for (std::size_t i = 0; i < trajectory_set.size(); ++i)
   {
-    auto& traj_info = trajectory_set[i];
-    QString description = traj_info.description.empty() ? QString("trajectory[%1]").arg(i) :
-                                                          QString::fromStdString(traj_info.description);
-    QStandardItem* trajectory_item = new JointTrajectoryInfoItem(description, traj_info);
+    tesseract_common::JointTrajectoryInfo& traj_info = trajectory_set[i];
+    QStandardItem* trajectory_item = new JointTrajectoryInfoItem(QString("trajectory[%1]").arg(i), traj_info);
     appendRow(trajectory_item);
   }
 }

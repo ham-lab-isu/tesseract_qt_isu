@@ -23,7 +23,7 @@
 #ifndef TESSERACT_QT_COMMON_THEME_UTILS_H
 #define TESSERACT_QT_COMMON_THEME_UTILS_H
 
-class QString;
+#include <QString>
 
 namespace tesseract_gui::themes
 {

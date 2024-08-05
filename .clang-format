@@ -53,8 +53,7 @@ UseTab: Never
 BreakBeforeBraces: Custom
 
 # Control of individual brace wrapping cases
-BraceWrapping: 
-    AfterCaseLabel : 'true'
+BraceWrapping: {
     AfterClass: 'true'
     AfterControlStatement: 'true'
     AfterEnum : 'true'
@@ -65,5 +64,5 @@ BraceWrapping:
     BeforeCatch : 'true'
     BeforeElse : 'true'
     IndentBraces : 'false'
-
+}
 ...

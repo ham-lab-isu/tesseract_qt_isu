@@ -23,8 +23,13 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_REMOVE_JOINT_COMMAND_STANDARD_ITEM_H
 #define TESSERACT_QT_ENVIRONMENT_REMOVE_JOINT_COMMAND_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#include <string>
+#ifndef Q_MOC_RUN
+#include <tesseract_environment/commands/remove_joint_command.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,15 +38,15 @@ namespace tesseract_gui
 class RemoveJointCommandStandardItem : public QStandardItem
 {
 public:
-  explicit RemoveJointCommandStandardItem(std::shared_ptr<const tesseract_environment::RemoveJointCommand> command);
+  explicit RemoveJointCommandStandardItem(tesseract_environment::RemoveJointCommand::ConstPtr command);
   explicit RemoveJointCommandStandardItem(const QString& text,
-                                          std::shared_ptr<const tesseract_environment::RemoveJointCommand> command);
+                                          tesseract_environment::RemoveJointCommand::ConstPtr command);
   explicit RemoveJointCommandStandardItem(const QIcon& icon,
                                           const QString& text,
-                                          std::shared_ptr<const tesseract_environment::RemoveJointCommand> command);
+                                          tesseract_environment::RemoveJointCommand::ConstPtr command);
   int type() const override;
 
-  std::shared_ptr<const tesseract_environment::RemoveJointCommand> command;
+  tesseract_environment::RemoveJointCommand::ConstPtr command;
 
 private:
   void ctor();

@@ -25,18 +25,15 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_geometry/impl/cylinder.h>
-
 namespace tesseract_gui
 {
-CylinderStandardItem::CylinderStandardItem(std::shared_ptr<const tesseract_geometry::Cylinder> cylinder)
+CylinderStandardItem::CylinderStandardItem(tesseract_geometry::Cylinder::ConstPtr cylinder)
   : QStandardItem(icons::getCylinderIcon(), "Cylinder"), cylinder(std::move(cylinder))
 {
   ctor();
 }
 
-CylinderStandardItem::CylinderStandardItem(const QString& text,
-                                           std::shared_ptr<const tesseract_geometry::Cylinder> cylinder)
+CylinderStandardItem::CylinderStandardItem(const QString& text, tesseract_geometry::Cylinder::ConstPtr cylinder)
   : QStandardItem(icons::getCylinderIcon(), text), cylinder(std::move(cylinder))
 {
   ctor();
@@ -44,7 +41,7 @@ CylinderStandardItem::CylinderStandardItem(const QString& text,
 
 CylinderStandardItem::CylinderStandardItem(const QIcon& icon,
                                            const QString& text,
-                                           std::shared_ptr<const tesseract_geometry::Cylinder> cylinder)
+                                           tesseract_geometry::Cylinder::ConstPtr cylinder)
   : QStandardItem(icon, text), cylinder(std::move(cylinder))
 {
   ctor();

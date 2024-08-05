@@ -27,8 +27,6 @@
 #include <tesseract_qt/common/models/standard_item_utils.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_qt/common/joint_trajectory_set.h>
-
 namespace tesseract_gui
 {
 JointTrajectoryInfoItem::JointTrajectoryInfoItem(tesseract_common::JointTrajectoryInfo& trajectory_info)
@@ -59,10 +57,10 @@ int JointTrajectoryInfoItem::type() const
 
 void JointTrajectoryInfoItem::ctor()
 {
-  for (std::size_t j = 0; j < trajectory_info.joint_trajectory.size(); ++j)
+  for (std::size_t j = 0; j < trajectory_info.second.size(); ++j)
   {
     QStandardItem* trajectory_state =
-        new JointTrajectoryStateItem(QString("state[%1]").arg(j), trajectory_info.joint_trajectory[j]);
+        new JointTrajectoryStateItem(QString("state[%1]").arg(j), trajectory_info.second[j]);
     appendRow(trajectory_state);
   }
 }

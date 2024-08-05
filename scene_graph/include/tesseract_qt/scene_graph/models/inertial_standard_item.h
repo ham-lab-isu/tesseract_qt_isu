@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_SCENE_GRAPH_INERTIAL_STANDARD_ITEM_H
 #define TESSERACT_QT_SCENE_GRAPH_INERTIAL_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_scene_graph/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_scene_graph/link.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,14 +37,12 @@ namespace tesseract_gui
 class InertialStandardItem : public QStandardItem
 {
 public:
-  InertialStandardItem(std::shared_ptr<tesseract_scene_graph::Inertial> inertial);
-  explicit InertialStandardItem(const QString& text, std::shared_ptr<tesseract_scene_graph::Inertial> inertial);
-  InertialStandardItem(const QIcon& icon,
-                       const QString& text,
-                       std::shared_ptr<tesseract_scene_graph::Inertial> inertial);
+  InertialStandardItem(tesseract_scene_graph::Inertial::Ptr inertial);
+  explicit InertialStandardItem(const QString& text, tesseract_scene_graph::Inertial::Ptr inertial);
+  InertialStandardItem(const QIcon& icon, const QString& text, tesseract_scene_graph::Inertial::Ptr inertial);
   int type() const override;
 
-  std::shared_ptr<tesseract_scene_graph::Inertial> inertial;
+  tesseract_scene_graph::Inertial::Ptr inertial;
 
 private:
   void ctor();

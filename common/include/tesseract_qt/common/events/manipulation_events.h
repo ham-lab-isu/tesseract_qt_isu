@@ -23,11 +23,14 @@
 #ifndef TESSERACT_QT_COMMON_MANIPULATION_EVENTS_H
 #define TESSERACT_QT_COMMON_MANIPULATION_EVENTS_H
 
+#include <tesseract_qt/common/events/event_type.h>
+#include <tesseract_qt/common/events/component_events.h>
+
 #include <unordered_map>
 #include <memory>
 
-#include <tesseract_qt/common/events/event_type.h>
-#include <tesseract_qt/common/events/component_events.h>
+#include <QEvent>
+#include <QString>
 
 namespace tesseract_gui::events
 {

@@ -23,10 +23,8 @@
 #ifndef TESSERACT_QT_WORKBENCH_WORKBENCH_WIDGET_H
 #define TESSERACT_QT_WORKBENCH_WORKBENCH_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QWidget>
-#endif
+#include <memory>
 
 namespace Ui
 {
@@ -38,7 +36,7 @@ namespace tesseract_gui
 class EnvironmentWidget;
 class JointTrajectoryWidget;
 class ManipulationWidget;
-class ComponentInfo;
+struct ComponentInfo;
 
 class WorkbenchWidget : public QWidget
 {

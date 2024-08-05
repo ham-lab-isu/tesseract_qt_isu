@@ -23,17 +23,22 @@
 #ifndef TESSERACT_QT_SCENE_GRAPH_SCENE_GRAPH_MODEL_H
 #define TESSERACT_QT_SCENE_GRAPH_SCENE_GRAPH_MODEL_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
 #include <QStandardItemModel>
-#include <tesseract_scene_graph/fwd.h>
-#endif
+#include <QObject>
+
+namespace tesseract_scene_graph
+{
+class SceneGraph;
+class Link;
+class Joint;
+}  // namespace tesseract_scene_graph
 
 class QModelIndex;
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class SceneGraphModel : public QStandardItemModel
 {
   Q_OBJECT

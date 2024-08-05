@@ -23,9 +23,13 @@
 #ifndef TESSERACT_QT_COMMAND_LANGUAGE_VECTOR_INSTRUCTION_STANDARD_ITEM_H
 #define TESSERACT_QT_COMMAND_LANGUAGE_VECTOR_INSTRUCTION_STANDARD_ITEM_H
 
-#include <vector>
 #include <QStandardItem>
-#include <tesseract_command_language/fwd.h>
+#include <vector>
+
+namespace tesseract_planning
+{
+class InstructionPoly;
+}
 
 namespace tesseract_gui
 {

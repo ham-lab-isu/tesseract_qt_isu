@@ -29,7 +29,6 @@
 #include <tesseract_qt/common/environment_wrapper.h>
 
 #include <tesseract_environment/environment.h>
-#include <tesseract_environment/command.h>
 
 #include <QApplication>
 
@@ -73,7 +72,7 @@ void EnvironmentCommandsModel::clear()
   appendRow(new EnvironmentCommandsStandardItem());
 }
 
-void EnvironmentCommandsModel::set(const std::vector<std::shared_ptr<const tesseract_environment::Command>>& commands)
+void EnvironmentCommandsModel::set(const tesseract_environment::Commands& commands)
 {
   QStandardItemModel::clear();
   setColumnCount(2);
@@ -81,12 +80,12 @@ void EnvironmentCommandsModel::set(const std::vector<std::shared_ptr<const tesse
   appendRow(new EnvironmentCommandsStandardItem(commands));
 }
 
-void EnvironmentCommandsModel::appendCommand(const std::shared_ptr<const tesseract_environment::Command>& command)
+void EnvironmentCommandsModel::appendCommand(const tesseract_environment::Command::ConstPtr& command)
 {
   getRoot()->appendCommand(command);
 }
 
-const std::vector<std::shared_ptr<const tesseract_environment::Command>>& EnvironmentCommandsModel::getCommands() const
+const tesseract_environment::Commands& EnvironmentCommandsModel::getCommands() const
 {
   return getRoot()->getCommands();
 }

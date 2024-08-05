@@ -2,47 +2,6 @@
 Changelog for package tesseract_qt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.23.1 (2024-08-02)
--------------------
-* Add poly factories
-* Contributors: Levi Armstrong
-
-0.23.0 (2024-07-24)
--------------------
-* Update ubuntu.yml
-* Add CI for Ubuntu Noble (`#116 <https://github.com/tesseract-robotics/tesseract_qt/issues/116>`_)
-* Do not export plugin libraries (`#118 <https://github.com/tesseract-robotics/tesseract_qt/issues/118>`_)
-* Update docker.yml
-* Update because TaskComposerProblem was removed
-* Fixes for building on Ubuntu Noble (`#114 <https://github.com/tesseract-robotics/tesseract_qt/issues/114>`_)
-* Contributors: Levi Armstrong, Roelof Oomen
-
-0.22.1 (2024-06-12)
--------------------
-* Update the workflow to use tesseract_planning 0.22
-* Contributors: Tyler Marr
-
-0.22.0 (2024-06-10)
--------------------
-* Upgrade ros_industrial_cmake_boilerplate to version 0.6.0
-* Update to changes in task composer node info structure
-* Update command language instructions standard item to include uuid and parent uuid
-* Add support for jerk limits
-* Add missing dependency
-* Update CI to correct branch
-* Update readme
-* Leverage forward declarations
-* Fix main branch to point to master (`#104 <https://github.com/tesseract-robotics/tesseract_qt/issues/104>`_)
-* Fix clang format for newer versions (`#102 <https://github.com/tesseract-robotics/tesseract_qt/issues/102>`_)
-* Rename trajectoryDurationStart to trajectoryDurationBegin (to match ...End)
-* Fix trajectory player for trajectories that do not start from time=0, e.g. when in a trajectory set
-* Fix crash on row change (`#101 <https://github.com/tesseract-robotics/tesseract_qt/issues/101>`_)
-* Enable custom naming in trajectory preview panel
-* Add support for polygon mesh
-* Remove deprecated AnalyzeTemporaryDtors
-  See https://github.com/llvm/llvm-project/issues/62020
-* Contributors: Doug Smith, Levi Armstrong, Roelof, Roelof Oomen, Tyler Marr
-
 0.21.3 (2023-12-22)
 -------------------
 * Fix ogre rendering crash when link only has collision geometry

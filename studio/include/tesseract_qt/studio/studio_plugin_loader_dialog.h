@@ -23,10 +23,8 @@
 #ifndef TESSERACT_QT_STUDIO_STUDIO_PLUGIN_LOADER_WIDGET_H
 #define TESSERACT_QT_STUDIO_STUDIO_PLUGIN_LOADER_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QDialog>
-#endif
+#include <memory>
 
 namespace Ui
 {

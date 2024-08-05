@@ -26,10 +26,6 @@
 #include <tesseract_common/plugin_loader.hpp>
 #include <tesseract_common/yaml_utils.h>
 
-#include <boost/program_options.hpp>
-
-#include <yaml-cpp/yaml.h>
-
 #include <tesseract_qt/common/icon_utils.h>
 #include <tesseract_qt/common/component_info.h>
 #include <tesseract_qt/common/component_info_manager.h>
@@ -38,13 +34,10 @@
 #include <tesseract_qt/studio/studio_plugin_loader_dialog.h>
 #include <tesseract_qt/studio/studio_dock_widget_factory.h>
 
-#if __has_include(<qtadvanceddocking/DockManager.h>)
-#include <qtadvanceddocking/DockAreaWidget.h>
-#include <qtadvanceddocking/DockManager.h>
-#else
-#include <DockAreaWidget.h>
+#include <boost/program_options.hpp>
+
 #include <DockManager.h>
-#endif
+#include <DockAreaWidget.h>
 
 #include <QSettings>
 #include <QWidgetAction>

@@ -37,8 +37,6 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <yaml-cpp/yaml.h>
-
 #include <QMenu>
 #include <QAction>
 

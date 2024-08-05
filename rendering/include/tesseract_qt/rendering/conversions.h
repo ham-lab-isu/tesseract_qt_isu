@@ -1,30 +1,16 @@
 #ifndef TESSERACT_QT_RENDERING_CONVERSIONS_H
 #define TESSERACT_QT_RENDERING_CONVERSIONS_H
 
-#include <gz/math/config.hh>
+#include <gz/common/KeyEvent.hh>
+#include <gz/common/MouseEvent.hh>
+#include <gz/math/Color.hh>
 #include <gz/math/Vector2.hh>
 #include <gz/math/Vector3.hh>
 
-namespace gz::common
-{
-class KeyEvent;
-class MouseEvent;
-}  // namespace gz::common
-
-namespace gz::math
-{
-inline namespace GZ_MATH_VERSION_NAMESPACE
-{
-class Color;
-}
-}  // namespace gz::math
-
-class QColor;
-class QPointF;
-class QVector3D;
-class QMouseEvent;
-class QWheelEvent;
-class QKeyEvent;
+#include <QtCore>
+#include <QColor>
+#include <QVector3D>
+#include <QInputEvent>
 
 namespace tesseract_gui
 {

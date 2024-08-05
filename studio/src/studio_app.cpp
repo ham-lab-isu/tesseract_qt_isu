@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QDebug>
 #include <QString>
-
 #include <console_bridge/console.h>
 #include <sstream>
 

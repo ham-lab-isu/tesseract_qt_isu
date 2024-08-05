@@ -24,9 +24,6 @@
 #define TESSERACT_QT_COMMON_SCENE_GRAPH_EVENTS_H
 
 #include <memory>
-#include <vector>
-#include <tesseract_scene_graph/fwd.h>
-
 #include <tesseract_qt/common/events/event_type.h>
 #include <tesseract_qt/common/events/component_events.h>
 
@@ -34,6 +31,14 @@ namespace tesseract_gui
 {
 enum class LinkVisibilityFlags;
 }
+
+namespace tesseract_scene_graph
+{
+class Link;
+class Joint;
+class SceneState;
+class SceneGraph;
+}  // namespace tesseract_scene_graph
 
 namespace tesseract_gui::events
 {

@@ -23,19 +23,13 @@
 #ifndef TESSERACT_GUI_COMMON_COMPONENT_INFO_WIDGET_H
 #define TESSERACT_GUI_COMMON_COMPONENT_INFO_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QWidget>
-#endif
+#include <memory>
+#include <boost/uuid/uuid.hpp>
 
 namespace Ui
 {
 class ComponentInfoWidget;
-}
-
-namespace boost::uuids
-{
-struct uuid;
 }
 
 namespace tesseract_gui

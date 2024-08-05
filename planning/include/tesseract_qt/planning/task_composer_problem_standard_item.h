@@ -20,30 +20,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-#ifndef TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_STANDARD_ITEM_H
-#define TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_STANDARD_ITEM_H
-
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#ifndef TESSERACT_QT_PLANNING_TASK_COMPOSER_PROBLEM_STANDARD_ITEM_H
+#define TESSERACT_QT_PLANNING_TASK_COMPOSER_PROBLEM_STANDARD_ITEM_H
 
 #include <QStandardItem>
 
+namespace tesseract_planning
+{
+class TaskComposerProblem;
+}
+
 namespace tesseract_gui
 {
-class EnvironmentStandardItem : public QStandardItem
+class TaskComposerProblemStandardItem : public QStandardItem
 {
 public:
-  EnvironmentStandardItem();
-  explicit EnvironmentStandardItem(const tesseract_environment::Environment& env);
-  explicit EnvironmentStandardItem(const QString& text, const tesseract_environment::Environment& env);
-  explicit EnvironmentStandardItem(const QIcon& icon,
-                                   const QString& text,
-                                   const tesseract_environment::Environment& env);
+  explicit TaskComposerProblemStandardItem(const tesseract_planning::TaskComposerProblem& problem);
+  TaskComposerProblemStandardItem(const QString& text, const tesseract_planning::TaskComposerProblem& problem);
+  TaskComposerProblemStandardItem(const QIcon& icon,
+                                  const QString& text,
+                                  const tesseract_planning::TaskComposerProblem& problem);
   int type() const override;
 
 private:
-  void ctor(const tesseract_environment::Environment& env);
+  void ctor(const tesseract_planning::TaskComposerProblem& problem);
 };
 }  // namespace tesseract_gui
 
-#endif  // TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_STANDARD_ITEM_H
+#endif  // TESSERACT_QT_PLANNING_TASK_COMPOSER_PROBLEM_STANDARD_ITEM_H

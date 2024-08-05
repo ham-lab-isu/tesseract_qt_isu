@@ -1,18 +1,11 @@
-cmake_minimum_required(VERSION 3.15.0)
+cmake_minimum_required(VERSION 3.6.0)
 
 # Extract package name and version
 find_package(ros_industrial_cmake_boilerplate REQUIRED)
 extract_package_metadata(pkg)
-project(${pkg_extracted_name} VERSION ${pkg_extracted_version} LANGUAGES C CXX)
+project(${pkg_extracted_name} VERSION ${pkg_extracted_version} LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  # Determine Ubuntu release
-  find_program(LSB_RELEASE_EXEC lsb_release)
-  execute_process(COMMAND ${LSB_RELEASE_EXEC} -cs OUTPUT_VARIABLE LSB_RELEASE_CODE_SHORT
-                  OUTPUT_STRIP_TRAILING_WHITESPACE)
-endif()
 
 if(WIN32)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -21,22 +14,20 @@ endif()
 option(BUILD_RENDERING "Build the rendering module" ON)
 option(BUILD_STUDIO "Build the studio module" ON)
 
-set(PROJECT_TARGETS)
-
 add_subdirectory(common)
 add_subdirectory(acm)
 add_subdirectory(collision)
 add_subdirectory(command_language)
-add_subdirectory(joint_state_slider)
-add_subdirectory(kinematic_groups)
-add_subdirectory(scene_graph)
 add_subdirectory(environment)
-add_subdirectory(plot)
+add_subdirectory(joint_state_slider)
 add_subdirectory(joint_trajectory)
-add_subdirectory(tool_path)
+add_subdirectory(kinematic_groups)
 add_subdirectory(manipulation)
-add_subdirectory(srdf)
+add_subdirectory(plot)
+add_subdirectory(scene_graph)
 add_subdirectory(planning)
+add_subdirectory(srdf)
+add_subdirectory(tool_path)
 add_subdirectory(workbench)
 
 set(DEPS
@@ -57,15 +48,10 @@ set(DEPS
 if(${BUILD_RENDERING})
   message("Building rendering module")
   add_subdirectory(rendering)
-  if((EXISTS LSB_RELEASE_CODE_SHORT) AND (LSB_RELEASE_CODE_SHORT STREQUAL "noble"))
-    set(GZ-RENDERING gz-rendering8)
-  else()
-    set(GZ-RENDERING gz-rendering7)
-  endif()
   list(
     APPEND
     DEPS
-    ${GZ_RENDERING}
+    gz-rendering7
     gz-math7-eigen3
     "gz-common5 COMPONENTS profiler events av")
 endif()
@@ -79,9 +65,4 @@ endif()
 install(FILES "${CMAKE_CURRENT_LIST_DIR}/cmake/FindQwt.cmake" "${CMAKE_CURRENT_LIST_DIR}/cmake/FindGraphviz.cmake"
         DESTINATION lib/cmake/${PROJECT_NAME})
 
-configure_package(
-  SKIP_INSTALL_TARGETS
-  NAMESPACE tesseract
-  TARGETS ${PROJECT_TARGETS}
-  DEPENDENCIES ${DEPS}
-  CFG_EXTRAS cmake/tesseract_qt-extras.cmake)
+configure_package(NAMESPACE tesseract DEPENDENCIES ${DEPS} CFG_EXTRAS cmake/tesseract_qt-extras.cmake)

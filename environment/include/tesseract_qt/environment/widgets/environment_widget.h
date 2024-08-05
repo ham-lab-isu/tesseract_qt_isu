@@ -23,10 +23,8 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_WIDGET_H
 #define TESSERACT_QT_ENVIRONMENT_ENVIRONMENT_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QWidget>
-#endif
+#include <memory>
 
 namespace Ui
 {
@@ -55,7 +53,7 @@ public:
 public Q_SLOTS:
   virtual void onPlotSceneGraph();
 
-private:
+protected:
   struct Implementation;
   std::unique_ptr<Ui::EnvironmentWidget> ui;
   std::unique_ptr<Implementation> data_;

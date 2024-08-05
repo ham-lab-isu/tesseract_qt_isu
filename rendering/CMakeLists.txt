@@ -7,26 +7,8 @@ find_package(
              OpenGL
   REQUIRED)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  if(LSB_RELEASE_CODE_SHORT STREQUAL "noble")
-    find_package(gz-rendering8 REQUIRED)
-    # Workaround instead of an ALIAS target, compatible with older CMake
-    add_library(gz-rendering INTERFACE IMPORTED)
-    set_target_properties(gz-rendering PROPERTIES INTERFACE_LINK_LIBRARIES gz-rendering8::gz-rendering8)
-  else()
-    find_package(gz-rendering7 REQUIRED)
-    # Workaround instead of an ALIAS target, compatible with older CMake
-    add_library(gz-rendering INTERFACE IMPORTED)
-    set_target_properties(gz-rendering PROPERTIES INTERFACE_LINK_LIBRARIES gz-rendering7::gz-rendering7)
-  endif()
-else()
-  find_package(gz-rendering7 REQUIRED)
-  # Workaround instead of an ALIAS target, compatible with older CMake
-  add_library(gz-rendering INTERFACE IMPORTED)
-  set_target_properties(gz-rendering PROPERTIES INTERFACE_LINK_LIBRARIES gz-rendering7::gz-rendering7)
-endif()
+find_package(gz-rendering7 REQUIRED)
 find_package(gz-common5 COMPONENTS profiler events av REQUIRED)
-find_package(gz-math7 REQUIRED)
 find_package(gz-math7-eigen3 REQUIRED)
 
 # Load variable for clang tidy args, compiler options and cxx version
@@ -39,8 +21,7 @@ target_link_libraries(
          gz-common5::gz-common5-profiler
          gz-common5::gz-common5-events
          gz-common5::gz-common5-av
-         gz-rendering
-         gz-math7::gz-math7
+         gz-rendering7::gz-rendering7
          gz-math7::gz-math7-eigen3
          ${PROJECT_NAME}_common)
 target_include_directories(${PROJECT_NAME}_gazebo_utils PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
@@ -69,7 +50,7 @@ target_link_libraries(
          gz-common5::gz-common5-profiler
          gz-common5::gz-common5-events
          gz-common5::gz-common5-av
-         gz-rendering
+         gz-rendering7::gz-rendering7
          gz-math7::gz-math7-eigen3
          Qt5::Core
          Qt5::Gui
@@ -87,10 +68,4 @@ add_subdirectory(demo)
 install(DIRECTORY include/${PROJECT_NAME} DESTINATION include)
 
 # Install
-list(
-  APPEND
-  PROJECT_TARGETS
-  ${PROJECT_NAME}_gazebo_utils
-  ${PROJECT_NAME}_render_widgets)
-set(PROJECT_TARGETS ${PROJECT_TARGETS} PARENT_SCOPE)
 install_targets(TARGETS ${PROJECT_NAME}_gazebo_utils ${PROJECT_NAME}_render_widgets)

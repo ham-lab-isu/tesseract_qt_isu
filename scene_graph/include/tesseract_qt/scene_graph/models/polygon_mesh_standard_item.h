@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_SCENE_GRAPH_POLYGON_MESH_STANDARD_ITEM_H
 #define TESSERACT_QT_SCENE_GRAPH_POLYGON_MESH_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_geometry/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_geometry/impl/polygon_mesh.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,14 +37,12 @@ namespace tesseract_gui
 class PolygonMeshStandardItem : public QStandardItem
 {
 public:
-  PolygonMeshStandardItem(std::shared_ptr<const tesseract_geometry::PolygonMesh> mesh);
-  explicit PolygonMeshStandardItem(const QString& text, std::shared_ptr<const tesseract_geometry::PolygonMesh> mesh);
-  PolygonMeshStandardItem(const QIcon& icon,
-                          const QString& text,
-                          std::shared_ptr<const tesseract_geometry::PolygonMesh> mesh);
+  PolygonMeshStandardItem(tesseract_geometry::PolygonMesh::ConstPtr mesh);
+  explicit PolygonMeshStandardItem(const QString& text, tesseract_geometry::PolygonMesh::ConstPtr mesh);
+  PolygonMeshStandardItem(const QIcon& icon, const QString& text, tesseract_geometry::PolygonMesh::ConstPtr mesh);
   int type() const override;
 
-  std::shared_ptr<const tesseract_geometry::PolygonMesh> mesh;
+  tesseract_geometry::PolygonMesh::ConstPtr mesh;
 
 private:
   void ctor();

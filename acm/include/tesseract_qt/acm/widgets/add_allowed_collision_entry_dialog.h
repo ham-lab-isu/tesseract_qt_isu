@@ -23,10 +23,14 @@
 #ifndef TESSERACT_QT_ACM_ADD_ALLOWED_COLLISION_ENTRY_DIALOG_H
 #define TESSERACT_QT_ACM_ADD_ALLOWED_COLLISION_ENTRY_DIALOG_H
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #ifndef Q_MOC_RUN
 #include <memory>
-#include <QDialog>
 #endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
+
+#include <QDialog>
 
 namespace Ui
 {
@@ -35,7 +39,7 @@ class AddAllowedCollisionEntryDialog;
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class AddAllowedCollisionEntryDialog : public QDialog
 {
   Q_OBJECT

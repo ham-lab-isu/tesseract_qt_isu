@@ -14,38 +14,47 @@ find_package(
 # Load variable for clang tidy args, compiler options and cxx version
 tesseract_variables()
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+qt5_wrap_cpp(
+  COMMON_WIDGETS_headers_MOC
+  include/tesseract_qt/common/environment_manager.h
+  include/tesseract_qt/common/environment_wrapper.h
+  include/tesseract_qt/common/models/json_model.h
+  include/tesseract_qt/common/models/yaml_model.h
+  include/tesseract_qt/common/models/component_info_manager_model.h
+  include/tesseract_qt/common/widgets/cartesian_editor_widget.h
+  include/tesseract_qt/common/widgets/combo_box.h
+  include/tesseract_qt/common/widgets/image_viewer_widget.h
+  include/tesseract_qt/common/widgets/tree_view.h
+  include/tesseract_qt/common/widgets/component_info_dialog.h
+  include/tesseract_qt/common/widgets/component_info_manager_widget.h
+  include/tesseract_qt/common/widgets/component_info_widget.h
+  include/tesseract_qt/common/widgets/create_child_component_info_dialog.h
+  include/tesseract_qt/common/widgets/create_component_info_dialog.h
+  include/tesseract_qt/common/widgets/load_environment_widget.h
+  include/tesseract_qt/common/widgets/load_environment_dialog.h)
 
-set(CMAKE_AUTOUIC_SEARCH_PATHS include/tesseract_qt/common/widgets)
+qt5_wrap_ui(
+  COMMON_WIDGETS_headers_UI
+  include/tesseract_qt/common/widgets/cartesian_editor_widget.ui
+  include/tesseract_qt/common/widgets/image_viewer_widget.ui
+  include/tesseract_qt/common/widgets/component_info_dialog.ui
+  include/tesseract_qt/common/widgets/component_info_manager_widget.ui
+  include/tesseract_qt/common/widgets/component_info_widget.ui
+  include/tesseract_qt/common/widgets/create_child_component_info_dialog.ui
+  include/tesseract_qt/common/widgets/create_component_info_dialog.ui
+  include/tesseract_qt/common/widgets/load_environment_widget.ui
+  include/tesseract_qt/common/widgets/load_environment_dialog.ui)
 
-set(COMMON_WIDGETS_headers_MOC
-    include/tesseract_qt/common/environment_manager.h
-    include/tesseract_qt/common/environment_wrapper.h
-    include/tesseract_qt/common/models/json_model.h
-    include/tesseract_qt/common/models/yaml_model.h
-    include/tesseract_qt/common/models/component_info_manager_model.h
-    include/tesseract_qt/common/widgets/cartesian_editor_widget.h
-    include/tesseract_qt/common/widgets/combo_box.h
-    include/tesseract_qt/common/widgets/image_viewer_widget.h
-    include/tesseract_qt/common/widgets/tree_view.h
-    include/tesseract_qt/common/widgets/component_info_dialog.h
-    include/tesseract_qt/common/widgets/component_info_manager_widget.h
-    include/tesseract_qt/common/widgets/component_info_widget.h
-    include/tesseract_qt/common/widgets/create_child_component_info_dialog.h
-    include/tesseract_qt/common/widgets/create_component_info_dialog.h
-    include/tesseract_qt/common/widgets/load_environment_widget.h
-    include/tesseract_qt/common/widgets/load_environment_dialog.h)
-
-set(COMMON_WIDGETS_resources_RCC
-    include/tesseract_qt/common/resources/tesseract_qt_resources.qrc
-    include/tesseract_qt/common/resources/themes/dark/qdarkstyle_dark.qrc
-    include/tesseract_qt/common/resources/themes/light/qdarkstyle_light.qrc)
+qt5_add_resources(
+  COMMON_WIDGETS_resources_RCC
+  include/tesseract_qt/common/resources/tesseract_qt_resources.qrc
+  include/tesseract_qt/common/resources/themes/dark/qdarkstyle_dark.qrc
+  include/tesseract_qt/common/resources/themes/light/qdarkstyle_light.qrc)
 
 add_library(
   ${PROJECT_NAME}_common SHARED
   ${COMMON_WIDGETS_headers_MOC}
+  ${COMMON_WIDGETS_headers_UI}
   ${COMMON_WIDGETS_resources_RCC}
   src/events/component_events.cpp
   src/events/allowed_collision_matrix_events.cpp
@@ -64,8 +73,6 @@ add_library(
   src/events/scene_graph_render_manager.cpp
   src/events/tool_path_events.cpp
   src/events/tool_path_render_manager.cpp
-  src/factories/any_poly_standard_item_factory.cpp
-  src/factories/instruction_poly_standard_item_factory.cpp
   src/models/any_standard_item.cpp
   src/models/collision_margin_data_standard_item.cpp
   src/models/component_info_manager_model.cpp
@@ -139,6 +146,4 @@ add_subdirectory(demo)
 install(DIRECTORY include/${PROJECT_NAME} DESTINATION include)
 
 # Install
-list(APPEND PROJECT_TARGETS ${PROJECT_NAME}_common)
-set(PROJECT_TARGETS ${PROJECT_TARGETS} PARENT_SCOPE)
 install_targets(TARGETS ${PROJECT_NAME}_common)

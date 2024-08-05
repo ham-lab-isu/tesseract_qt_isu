@@ -27,31 +27,24 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_environment/commands/add_link_command.h>
-#include <tesseract_scene_graph/link.h>
-#include <tesseract_scene_graph/joint.h>
-
 namespace tesseract_gui
 {
-AddLinkCommandStandardItem::AddLinkCommandStandardItem(
-    std::shared_ptr<const tesseract_environment::AddLinkCommand> command)
+AddLinkCommandStandardItem::AddLinkCommandStandardItem(tesseract_environment::AddLinkCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), "Add Link"), command(std::move(command))
 {
   ctor();
 }
 
-AddLinkCommandStandardItem::AddLinkCommandStandardItem(
-    const QString& text,
-    std::shared_ptr<const tesseract_environment::AddLinkCommand> command)
+AddLinkCommandStandardItem::AddLinkCommandStandardItem(const QString& text,
+                                                       tesseract_environment::AddLinkCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), text), command(std::move(command))
 {
   ctor();
 }
 
-AddLinkCommandStandardItem::AddLinkCommandStandardItem(
-    const QIcon& icon,
-    const QString& text,
-    std::shared_ptr<const tesseract_environment::AddLinkCommand> command)
+AddLinkCommandStandardItem::AddLinkCommandStandardItem(const QIcon& icon,
+                                                       const QString& text,
+                                                       tesseract_environment::AddLinkCommand::ConstPtr command)
   : QStandardItem(icon, text), command(std::move(command))
 {
   ctor();

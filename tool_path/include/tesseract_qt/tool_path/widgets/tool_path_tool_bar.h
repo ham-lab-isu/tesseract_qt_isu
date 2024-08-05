@@ -23,14 +23,12 @@
 #ifndef TESSERACT_QT_TOOL_PATH_TOOL_PATH_TOOL_BAR_H
 #define TESSERACT_QT_TOOL_PATH_TOOL_PATH_TOOL_BAR_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
 #include <QToolBar>
-#endif
+#include <memory>
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class ToolPathToolBar : public QToolBar
 {
   Q_OBJECT

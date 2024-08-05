@@ -23,9 +23,6 @@
 
 #include <tesseract_qt/common/icon_utils.h>
 #include <tesseract_qt/common/svg_util.h>
-
-#include <QIcon>
-
 namespace tesseract_gui::icons
 {
 QIcon getAnchorIcon()

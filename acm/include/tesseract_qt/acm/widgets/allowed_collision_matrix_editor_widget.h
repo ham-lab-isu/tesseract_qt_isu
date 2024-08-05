@@ -23,10 +23,16 @@
 #ifndef TESSERACT_QT_ACM_GENERATE_ALLOWED_COLLISION_MATRIX_WIDGET_H
 #define TESSERACT_QT_ACM_GENERATE_ALLOWED_COLLISION_MATRIX_WIDGET_H
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #ifndef Q_MOC_RUN
+#include <tesseract_qt/acm/models/allowed_collision_matrix_model.h>
+#include <tesseract_common/allowed_collision_matrix.h>
 #include <memory>
-#include <QWidget>
 #endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
+
+#include <QWidget>
 
 namespace Ui
 {
@@ -37,8 +43,6 @@ class QItemSelectionModel;
 
 namespace tesseract_gui
 {
-class ComponentInfo;
-class AllowedCollisionMatrixModel;
 class AddAllowedCollisionEntryDialog;
 class AllowedCollisionMatrixEditorWidget : public QWidget
 {

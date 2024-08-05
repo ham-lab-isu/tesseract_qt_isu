@@ -34,27 +34,22 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_scene_graph/link.h>
-#include <tesseract_geometry/geometry.h>
-#include <tesseract_geometry/geometries.h>
-
 namespace tesseract_gui
 {
-CollisionStandardItem::CollisionStandardItem(std::shared_ptr<tesseract_scene_graph::Collision> collision)
+CollisionStandardItem::CollisionStandardItem(tesseract_scene_graph::Collision::Ptr collision)
   : QStandardItem(icons::getCollisionIcon(), "Collision"), collision(std::move(collision))
 {
   ctor();
 }
 
-CollisionStandardItem::CollisionStandardItem(const QString& text,
-                                             std::shared_ptr<tesseract_scene_graph::Collision> collision)
+CollisionStandardItem::CollisionStandardItem(const QString& text, tesseract_scene_graph::Collision::Ptr collision)
   : QStandardItem(icons::getCollisionIcon(), text), collision(std::move(collision))
 {
   ctor();
 }
 CollisionStandardItem::CollisionStandardItem(const QIcon& icon,
                                              const QString& text,
-                                             std::shared_ptr<tesseract_scene_graph::Collision> collision)
+                                             tesseract_scene_graph::Collision::Ptr collision)
   : QStandardItem(icon, text), collision(std::move(collision))
 {
   ctor();
@@ -113,7 +108,6 @@ void CollisionStandardItem::ctor()
     }
     case tesseract_geometry::GeometryType::CONVEX_MESH:
     case tesseract_geometry::GeometryType::MESH:
-    case tesseract_geometry::GeometryType::POLYGON_MESH:
     case tesseract_geometry::GeometryType::SDF_MESH:
     {
       geometry_item = new PolygonMeshStandardItem(

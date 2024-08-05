@@ -21,14 +21,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 #include <tesseract_qt/command_language/models/vector_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/composite_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/move_instruction_standard_item.h>
 #include <tesseract_qt/command_language/models/null_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/set_analog_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/set_tool_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/timer_instruction_standard_item.h>
+#include <tesseract_qt/command_language/models/wait_instruction_standard_item.h>
 #include <tesseract_qt/command_language/models/instruction_standard_item.h>
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/models/standard_item_utils.h>
-#include <tesseract_qt/common/factories/instruction_poly_standard_item_factory.h>
 #include <tesseract_qt/common/icon_utils.h>
 
 #include <tesseract_command_language/poly/instruction_poly.h>
+#include <tesseract_command_language/poly/move_instruction_poly.h>
+#include <tesseract_command_language/composite_instruction.h>
+#include <tesseract_command_language/set_analog_instruction.h>
+#include <tesseract_command_language/set_tool_instruction.h>
+#include <tesseract_command_language/timer_instruction.h>
+#include <tesseract_command_language/wait_instruction.h>
+#include <tesseract_command_language/instruction_type.h>
 
 namespace tesseract_gui
 {
@@ -59,17 +71,37 @@ void VectorInstructionStandardItem::ctor(const std::vector<tesseract_planning::I
 {
   for (const auto& instruction : vi)
   {
-    if (instruction.isNull())
+    if (instruction.isCompositeInstruction())
     {
-      appendRow(new NullInstructionStandardItem());  // NOLINT
+      appendRow(new CompositeInstructionStandardItem(instruction.as<tesseract_planning::CompositeInstruction>()));
+    }
+    else if (instruction.isMoveInstruction())
+    {
+      appendRow(new MoveInstructionStandardItem(instruction.as<tesseract_planning::MoveInstructionPoly>()));
+    }
+    else if (instruction.isNull())
+    {
+      appendRow(new NullInstructionStandardItem());
+    }
+    else if (tesseract_planning::isSetAnalogInstruction(instruction))
+    {
+      appendRow(new SetAnalogInstructionStandardItem(instruction.as<tesseract_planning::SetAnalogInstruction>()));
+    }
+    else if (tesseract_planning::isSetToolInstruction(instruction))
+    {
+      appendRow(new SetToolInstructionStandardItem(instruction.as<tesseract_planning::SetToolInstruction>()));
+    }
+    else if (tesseract_planning::isTimerInstruction(instruction))
+    {
+      appendRow(new TimerInstructionStandardItem(instruction.as<tesseract_planning::TimerInstruction>()));
+    }
+    else if (tesseract_planning::isWaitInstruction(instruction))
+    {
+      appendRow(new WaitInstructionStandardItem(instruction.as<tesseract_planning::WaitInstruction>()));
     }
     else
     {
-      QList<QStandardItem*> items = InstructionPolyStandardItemManager::create(instruction);
-      if (items.empty())
-        appendRow(new InstructionStandardItem(instruction));  // NOLINT
-      else
-        appendRow(items);
+      appendRow(new InstructionStandardItem(instruction));
     }
   }
 }

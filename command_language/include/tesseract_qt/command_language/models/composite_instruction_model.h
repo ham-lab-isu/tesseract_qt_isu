@@ -23,15 +23,17 @@
 #ifndef TESSERACT_QT_COMMAND_LANGUAGE_COMPOSITE_INSTRUCTION_MODEL_H
 #define TESSERACT_QT_COMMAND_LANGUAGE_COMPOSITE_INSTRUCTION_MODEL_H
 
-#ifndef Q_MOC_RUN
-#include <memory>
-#include <tesseract_command_language/fwd.h>
 #include <QStandardItemModel>
-#endif
+#include <memory>
+
+namespace tesseract_planning
+{
+class CompositeInstruction;
+}
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class CompositeInstructionModel : public QStandardItemModel
 {
   Q_OBJECT
@@ -49,15 +51,14 @@ public:
   void clear();
 
 protected:
+  struct Implementation;
+  std::unique_ptr<Implementation> data_;
+
   void setCompositeInstruction(const std::string& ns, const tesseract_planning::CompositeInstruction& ci);
   void removeNamespace(const std::string& ns);
 
   // Documentation inherited
   bool eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-  struct Implementation;
-  std::unique_ptr<Implementation> data_;
 };
 }  // namespace tesseract_gui
 

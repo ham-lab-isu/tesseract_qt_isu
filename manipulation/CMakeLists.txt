@@ -6,16 +6,16 @@ find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 # Load variable for clang tidy args, compiler options and cxx version
 tesseract_variables()
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
+qt5_wrap_cpp(MANIPULATION_WIDGET_headers_MOC include/tesseract_qt/manipulation/manipulation_widget.h
+             include/tesseract_qt/manipulation/manipulation_tool_bar.h)
+qt5_wrap_ui(MANIPULATION_WIDGET_headers_UI include/tesseract_qt/manipulation/manipulation_widget.ui)
 
-set(CMAKE_AUTOUIC_SEARCH_PATHS include/tesseract_qt/manipulation)
-
-set(MANIPULATION_WIDGET_headers_MOC include/tesseract_qt/manipulation/manipulation_widget.h
-                                    include/tesseract_qt/manipulation/manipulation_tool_bar.h)
-
-add_library(${PROJECT_NAME}_manipulation_widgets SHARED ${MANIPULATION_WIDGET_headers_MOC} src/manipulation_widget.cpp
-                                                        src/manipulation_tool_bar.cpp)
+add_library(
+  ${PROJECT_NAME}_manipulation_widgets SHARED
+  ${MANIPULATION_WIDGET_headers_MOC}
+  ${MANIPULATION_WIDGET_headers_UI}
+  src/manipulation_widget.cpp
+  src/manipulation_tool_bar.cpp)
 
 target_link_libraries(
   ${PROJECT_NAME}_manipulation_widgets
@@ -39,6 +39,4 @@ target_include_directories(
 install(DIRECTORY include/${PROJECT_NAME} DESTINATION include)
 
 # Install
-list(APPEND PROJECT_TARGETS ${PROJECT_NAME}_manipulation_widgets)
-set(PROJECT_TARGETS ${PROJECT_TARGETS} PARENT_SCOPE)
 install_targets(TARGETS ${PROJECT_NAME}_manipulation_widgets)

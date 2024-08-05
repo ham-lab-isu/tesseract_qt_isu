@@ -23,8 +23,14 @@
 #ifndef TESSERACT_QT_COLLISION_CONTACT_REQUEST_STANDARD_ITEM_H
 #define TESSERACT_QT_COLLISION_CONTACT_REQUEST_STANDARD_ITEM_H
 
-#include <QStandardItem>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
 #include <tesseract_collision/core/types.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
+
+#include <QStandardItem>
 
 namespace tesseract_gui
 {

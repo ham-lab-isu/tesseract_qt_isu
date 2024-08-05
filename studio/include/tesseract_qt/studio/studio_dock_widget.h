@@ -23,19 +23,12 @@
 #ifndef TESSERACT_QT_STUDIO_STUDIO_DOCK_WIDGET_H
 #define TESSERACT_QT_STUDIO_STUDIO_DOCK_WIDGET_H
 
-#ifndef Q_MOC_RUN
-#include <string>
-#if __has_include(<qtadvanceddocking/DockManager.h>)
-#include <qtadvanceddocking/DockAreaWidget.h>
-#else
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#include <yaml-cpp/yaml.h>
+#include <ads_globals.h>
 #include <DockAreaWidget.h>
-#endif
-#endif
-
-namespace YAML
-{
-class Node;
-}
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_gui
 {

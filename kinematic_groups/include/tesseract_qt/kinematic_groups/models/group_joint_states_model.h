@@ -23,7 +23,12 @@
 #ifndef TESSERACT_QT_KINEMATIC_GROUPS_GROUPS_JOINT_STATES_MODEL_H
 #define TESSERACT_QT_KINEMATIC_GROUPS_GROUPS_JOINT_STATES_MODEL_H
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
 #include <tesseract_srdf/kinematics_information.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItemModel>
 
@@ -31,7 +36,7 @@ class QModelIndex;
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class GroupJointStatesStandardItem;
 class GroupJointStatesModel : public QStandardItemModel
 {

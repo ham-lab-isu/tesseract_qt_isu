@@ -6,12 +6,7 @@ find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 # Load variable for clang tidy args, compiler options and cxx version
 tesseract_variables()
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-
-set(CMAKE_AUTOUIC_SEARCH_PATHS include/tesseract_qt/joint_trajectory/widgets)
-
-set(TRAJ_MODEL_headers_MOC include/tesseract_qt/joint_trajectory/models/joint_trajectory_model.h)
+qt5_wrap_cpp(TRAJ_MODEL_headers_MOC include/tesseract_qt/joint_trajectory/models/joint_trajectory_model.h)
 
 add_library(
   ${PROJECT_NAME}_joint_trajectory_models SHARED
@@ -31,14 +26,18 @@ target_include_directories(
   ${PROJECT_NAME}_joint_trajectory_models PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
                                                  "$<INSTALL_INTERFACE:include>")
 
-set(TRAJ_WIDGET_headers_MOC
-    include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_widget.h
-    include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_tool_bar.h
-    include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_plot_dialog.h)
+qt5_wrap_cpp(
+  TRAJ_WIDGET_headers_MOC
+  include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_widget.h
+  include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_tool_bar.h
+  include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_plot_dialog.h)
+qt5_wrap_ui(TRAJ_WIDGET_headers_UI include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_widget.ui
+            include/tesseract_qt/joint_trajectory/widgets/joint_trajectory_plot_dialog.ui)
 
 add_library(
   ${PROJECT_NAME}_joint_trajectory_widgets SHARED
   ${TRAJ_WIDGET_headers_MOC}
+  ${TRAJ_WIDGET_headers_UI}
   src/widgets/joint_trajectory_tool_bar.cpp
   src/widgets/joint_trajectory_widget.cpp
   src/widgets/joint_trajectory_plot_dialog.cpp)
@@ -65,10 +64,4 @@ add_subdirectory(demo)
 install(DIRECTORY include/${PROJECT_NAME} DESTINATION include)
 
 # Install
-list(
-  APPEND
-  PROJECT_TARGETS
-  ${PROJECT_NAME}_joint_trajectory_models
-  ${PROJECT_NAME}_joint_trajectory_widgets)
-set(PROJECT_TARGETS ${PROJECT_TARGETS} PARENT_SCOPE)
 install_targets(TARGETS ${PROJECT_NAME}_joint_trajectory_models ${PROJECT_NAME}_joint_trajectory_widgets)

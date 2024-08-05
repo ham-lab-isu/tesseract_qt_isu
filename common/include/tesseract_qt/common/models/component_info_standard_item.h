@@ -24,7 +24,6 @@
 #define TESSERACT_QT_COMMON_COMPONENT_INFO_STANDARD_ITEM_H
 
 #include <memory>
-
 #include <QStandardItem>
 
 namespace tesseract_gui

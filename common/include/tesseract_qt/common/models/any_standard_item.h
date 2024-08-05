@@ -23,10 +23,12 @@
 #ifndef TESSERACT_QT_COMMON_ANY_STANDARD_ITEM_H
 #define TESSERACT_QT_COMMON_ANY_STANDARD_ITEM_H
 
-#include <tesseract_common/fwd.h>
-
 #include <QStandardItem>
 
+namespace tesseract_common
+{
+class AnyPoly;
+}
 namespace tesseract_gui
 {
 class AnyStandardItem : public QStandardItem

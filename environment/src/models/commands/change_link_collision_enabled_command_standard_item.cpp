@@ -25,12 +25,10 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_environment/commands/change_link_collision_enabled_command.h>
-
 namespace tesseract_gui
 {
 ChangeLinkCollisionEnabledCommandStandardItem::ChangeLinkCollisionEnabledCommandStandardItem(
-    std::shared_ptr<const tesseract_environment::ChangeLinkCollisionEnabledCommand> command)
+    tesseract_environment::ChangeLinkCollisionEnabledCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), "Change Link Collision Enabled"), command(std::move(command))
 {
   ctor();
@@ -38,7 +36,7 @@ ChangeLinkCollisionEnabledCommandStandardItem::ChangeLinkCollisionEnabledCommand
 
 ChangeLinkCollisionEnabledCommandStandardItem::ChangeLinkCollisionEnabledCommandStandardItem(
     const QString& text,
-    std::shared_ptr<const tesseract_environment::ChangeLinkCollisionEnabledCommand> command)
+    tesseract_environment::ChangeLinkCollisionEnabledCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), text), command(std::move(command))
 {
   ctor();
@@ -47,7 +45,7 @@ ChangeLinkCollisionEnabledCommandStandardItem::ChangeLinkCollisionEnabledCommand
 ChangeLinkCollisionEnabledCommandStandardItem::ChangeLinkCollisionEnabledCommandStandardItem(
     const QIcon& icon,
     const QString& text,
-    std::shared_ptr<const tesseract_environment::ChangeLinkCollisionEnabledCommand> command)
+    tesseract_environment::ChangeLinkCollisionEnabledCommand::ConstPtr command)
   : QStandardItem(icon, text), command(std::move(command))
 {
   ctor();

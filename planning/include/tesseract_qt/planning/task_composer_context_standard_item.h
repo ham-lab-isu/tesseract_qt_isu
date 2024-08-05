@@ -23,9 +23,12 @@
 #ifndef TESSERACT_QT_PLANNING_TASK_COMPOSER_CONTEXT_STANDARD_ITEM_H
 #define TESSERACT_QT_PLANNING_TASK_COMPOSER_CONTEXT_STANDARD_ITEM_H
 
-#include <tesseract_task_composer/core/fwd.h>
-
 #include <QStandardItem>
+
+namespace tesseract_planning
+{
+class TaskComposerContext;
+}
 
 namespace tesseract_gui
 {

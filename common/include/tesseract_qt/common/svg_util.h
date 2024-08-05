@@ -23,9 +23,7 @@
 #ifndef TESSERACT_QT_COMMON_SVG_UTIL_H
 #define TESSERACT_QT_COMMON_SVG_UTIL_H
 
-#include <QString>
-
-class QPixmap;
+#include <QPixmap>
 
 namespace tesseract_gui
 {

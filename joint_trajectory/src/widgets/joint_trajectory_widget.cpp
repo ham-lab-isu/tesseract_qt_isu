@@ -44,14 +44,11 @@
 #include <tesseract_qt/common/joint_trajectory_set.h>
 
 #include <tesseract_common/joint_state.h>
-#include <tesseract_environment/environment.h>
 #include <tesseract_visualization/trajectory_player.h>
-#include <set>
-#include <console_bridge/console.h>
 
 #include <QTimer>
 #include <QFileDialog>
-#include <QItemSelectionModel>
+#include <set>
 
 const double SLIDER_RESOLUTION = 0.001;
 
@@ -242,7 +239,7 @@ void JointTrajectoryWidget::onRemove()
 
 void JointTrajectoryWidget::onPlot()
 {
-  if (data_->current_trajectory.joint_trajectory.empty())
+  if (data_->current_trajectory.second.empty())
     return;
 
   data_->plot_dialog = nullptr;
@@ -294,9 +291,9 @@ void JointTrajectoryWidget::onCurrentRowChanged(const QModelIndex& current, cons
         }
       }
 
-      data_->player->setTrajectory(data_->current_trajectory.joint_trajectory);
+      data_->player->setTrajectory(data_->current_trajectory.second);
 
-      if (!data_->current_trajectory.joint_trajectory.empty())
+      if (!data_->current_trajectory.second.empty())
         onEnablePlayer();
 
       break;
@@ -326,49 +323,40 @@ void JointTrajectoryWidget::onCurrentRowChanged(const QModelIndex& current, cons
       }
 
       data_->current_trajectory = tesseract_common::JointTrajectoryInfo();
-      data_->current_trajectory.joint_state = jts.getInitialState();
+      data_->current_trajectory.first = jts.getInitialState();
       for (const auto& t : jts.getJointTrajectories())
-        data_->current_trajectory.joint_trajectory.insert(
-            data_->current_trajectory.joint_trajectory.end(), t.joint_trajectory.begin(), t.joint_trajectory.end());
+        data_->current_trajectory.second.insert(
+            data_->current_trajectory.second.end(), t.second.begin(), t.second.end());
 
-      data_->player->setTrajectory(data_->current_trajectory.joint_trajectory);
+      data_->player->setTrajectory(data_->current_trajectory.second);
 
-      if (!data_->current_trajectory.joint_trajectory.empty())
+      if (!data_->current_trajectory.second.empty())
         onEnablePlayer();
 
       break;
     }
     default:
     {
-      try
+      events::JointTrajectoryToolbarState event(data_->model->getComponentInfo());
+      event.save_enabled = false;
+      event.remove_enabled = false;
+      event.plot_enabled = false;
+      QApplication::sendEvent(qApp, &event);
+
+      const tesseract_common::JointState& state = data_->model->getJointState(current_index);
+      auto jts = data_->model->getJointTrajectorySet(current_index);
+
+      if (jts.getEnvironment() != nullptr && jts.getEnvironment()->isInitialized())
       {
-        events::JointTrajectoryToolbarState event(data_->model->getComponentInfo());
-        event.save_enabled = false;
-        event.remove_enabled = false;
-        event.plot_enabled = false;
-        QApplication::sendEvent(qApp, &event);
-
-        const tesseract_common::JointState& state = data_->model->getJointState(current_index);
-        auto jts = data_->model->getJointTrajectorySet(current_index);
-
-        if (jts.getEnvironment() != nullptr && jts.getEnvironment()->isInitialized())
+        if (data_->model->getComponentInfo()->hasParent() && data_->current_environment != jts.getEnvironment())
         {
-          if (data_->model->getComponentInfo()->hasParent() && data_->current_environment != jts.getEnvironment())
-          {
-            auto env_wrapper =
-                std::make_shared<DefaultEnvironmentWrapper>(data_->model->getComponentInfo(), jts.getEnvironment());
-            EnvironmentManager::set(env_wrapper);
-          }
-
-          data_->current_environment = jts.getEnvironment();
-          data_->current_environment->setState(state.joint_names, state.position);
+          auto env_wrapper =
+              std::make_shared<DefaultEnvironmentWrapper>(data_->model->getComponentInfo(), jts.getEnvironment());
+          EnvironmentManager::set(env_wrapper);
         }
-      }
-      catch (const std::runtime_error& ex)
-      {
-        std::stringstream sstr;
-        sstr << "Error in onCurrentRowChanged default, not updating env state: " << ex.what() << std::endl;
-        CONSOLE_BRIDGE_logDebug(sstr.str().c_str());
+
+        data_->current_environment = jts.getEnvironment();
+        data_->current_environment->setState(state.joint_names, state.position);
       }
 
       break;
@@ -411,15 +399,15 @@ void JointTrajectoryWidget::onSliderValueChanged(int value)
 
 void JointTrajectoryWidget::onEnablePlayer()
 {
-  data_->current_duration = data_->player->currentDuration();
   ui_->trajectoryPlayerFrame->setEnabled(true);
   ui_->trajectoryPlayButton->setEnabled(true);
   ui_->trajectoryPauseButton->setEnabled(false);
-  ui_->trajectorySlider->setMinimum(data_->player->trajectoryDurationBegin() / SLIDER_RESOLUTION);
-  ui_->trajectorySlider->setMaximum(data_->player->trajectoryDurationEnd() / SLIDER_RESOLUTION);
-  ui_->trajectorySlider->setSliderPosition(data_->current_duration);
-  ui_->trajectoryCurrentDurationLabel->setText(QString().sprintf("%0.3f", data_->current_duration));
-  ui_->trajectoryDurationLabel->setText(QString().sprintf("%0.3f", data_->player->trajectoryDurationEnd()));
+  ui_->trajectorySlider->setMinimum(0);
+  ui_->trajectorySlider->setMaximum(data_->player->trajectoryDuration() / SLIDER_RESOLUTION);
+  ui_->trajectorySlider->setSliderPosition(0);
+  ui_->trajectoryCurrentDurationLabel->setText(QString().sprintf("%0.3f", data_->player->currentDuration()));
+  ui_->trajectoryDurationLabel->setText(QString().sprintf("%0.3f", data_->player->trajectoryDuration()));
+  data_->current_duration = 0;
 }
 
 void JointTrajectoryWidget::onDisablePlayer() { ui_->trajectoryPlayerFrame->setEnabled(false); }

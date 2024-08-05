@@ -15,31 +15,13 @@
  *
  */
 #include <tesseract_qt/rendering/gazebo_utils.h>
-#include <tesseract_qt/common/entity_container.h>
-
-#include <tesseract_common/resource_locator.h>
 #include <tesseract_geometry/geometries.h>
-#include <tesseract_scene_graph/graph.h>
-#include <tesseract_scene_graph/link.h>
-#include <tesseract_scene_graph/scene_state.h>
-#include <tesseract_geometry/geometry.h>
-#include <tesseract_geometry/impl/polygon_mesh.h>
-#include <tesseract_environment/environment.h>
-#include <tesseract_environment/commands.h>
-#include <tesseract_environment/events.h>
-
-#include <gz/rendering/Scene.hh>
-#include <gz/rendering/Visual.hh>
-#include <gz/rendering/Material.hh>
-#include <gz/math/AxisAlignedBox.hh>
-#include <gz/common/SubMesh.hh>
-
-#include <gz/math/eigen3/Conversions.hh>
-#include <gz/common/Mesh.hh>
-#include <gz/common/MeshManager.hh>
-
 #include <gz/rendering/RenderingIface.hh>
 #include <gz/rendering/RenderEngine.hh>
+#include <gz/math/eigen3/Conversions.hh>
+#include <gz/common/Mesh.hh>
+#include <gz/common/SubMesh.hh>
+#include <gz/common/MeshManager.hh>
 #include <gz/rendering/WireBox.hh>
 #include <gz/rendering/AxisVisual.hh>
 #include <gz/rendering/Capsule.hh>
@@ -51,7 +33,7 @@ const std::string USER_PARENT_VISIBILITY = "user_parent_visibility";
 namespace tesseract_gui
 {
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Scene> sceneFromFirstRenderEngine(const std::string& scene_name)
+gz::rendering::ScenePtr sceneFromFirstRenderEngine(const std::string& scene_name)
 {
   auto loaded_eng_names = gz::rendering::loadedEngines();
   if (loaded_eng_names.empty())
@@ -90,8 +72,7 @@ std::shared_ptr<gz::rendering::Scene> sceneFromFirstRenderEngine(const std::stri
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Scene> sceneFromRenderEngine(const std::string& scene_name,
-                                                            const std::string& engine_name)
+gz::rendering::ScenePtr sceneFromRenderEngine(const std::string& scene_name, const std::string& engine_name)
 {
   auto* engine = gz::rendering::engine(engine_name);
   if (engine == nullptr)
@@ -264,7 +245,7 @@ std::vector<std::string> loadSceneGraph(gz::rendering::Scene& scene,
                                         const std::string& prefix)
 {
   std::vector<std::string> link_names;
-  std::shared_ptr<gz::rendering::Visual> root = scene.RootVisual();
+  gz::rendering::VisualPtr root = scene.RootVisual();
   if (prefix.empty())
   {
     for (const auto& link : scene_graph.getLinks())
@@ -285,19 +266,19 @@ std::vector<std::string> loadSceneGraph(gz::rendering::Scene& scene,
   return link_names;
 }
 
-std::shared_ptr<gz::rendering::Visual> loadLink(gz::rendering::Scene& scene,
-                                                tesseract_gui::EntityContainer& entity_container,
-                                                const tesseract_scene_graph::Link& link)
+gz::rendering::VisualPtr loadLink(gz::rendering::Scene& scene,
+                                  tesseract_gui::EntityContainer& entity_container,
+                                  const tesseract_scene_graph::Link& link)
 {
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, link.getName());
-  std::shared_ptr<gz::rendering::Visual> ign_link = scene.CreateVisual(entity.id, entity.unique_name);
+  gz::rendering::VisualPtr ign_link = scene.CreateVisual(entity.id, entity.unique_name);
   ign_link->SetUserData(USER_VISIBILITY, true);
 
-  std::shared_ptr<gz::rendering::Visual> ign_link_visuals = loadLinkVisuals(scene, entity_container, link);
+  gz::rendering::VisualPtr ign_link_visuals = loadLinkVisuals(scene, entity_container, link);
   ign_link_visuals->SetUserData(USER_VISIBILITY, true);
   ign_link->AddChild(ign_link_visuals);
 
-  std::shared_ptr<gz::rendering::Visual> ign_link_collisions = loadLinkCollisions(scene, entity_container, link);
+  gz::rendering::VisualPtr ign_link_collisions = loadLinkCollisions(scene, entity_container, link);
   ign_link_collisions->SetUserData(USER_VISIBILITY, false);
   ign_link->AddChild(ign_link_collisions);
 
@@ -320,13 +301,13 @@ std::shared_ptr<gz::rendering::Visual> loadLink(gz::rendering::Scene& scene,
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual> loadLinkVisuals(gz::rendering::Scene& scene,
-                                                       EntityContainer& entity_container,
-                                                       const tesseract_scene_graph::Link& link)
+gz::rendering::VisualPtr loadLinkVisuals(gz::rendering::Scene& scene,
+                                         EntityContainer& entity_container,
+                                         const tesseract_scene_graph::Link& link)
 {
   std::string name = link.getName() + "::Visuals";
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, name);
-  std::shared_ptr<gz::rendering::Visual> ign_link_visuals = scene.CreateVisual(entity.id, entity.unique_name);
+  gz::rendering::VisualPtr ign_link_visuals = scene.CreateVisual(entity.id, entity.unique_name);
 
   for (const auto& visual : link.visual)
     ign_link_visuals->AddChild(loadLinkGeometry(
@@ -336,13 +317,13 @@ std::shared_ptr<gz::rendering::Visual> loadLinkVisuals(gz::rendering::Scene& sce
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual> loadLinkCollisions(gz::rendering::Scene& scene,
-                                                          EntityContainer& entity_container,
-                                                          const tesseract_scene_graph::Link& link)
+gz::rendering::VisualPtr loadLinkCollisions(gz::rendering::Scene& scene,
+                                            EntityContainer& entity_container,
+                                            const tesseract_scene_graph::Link& link)
 {
   std::string name = link.getName() + "::Collisions";
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, name);
-  std::shared_ptr<gz::rendering::Visual> ign_link_collisions = scene.CreateVisual(entity.id, entity.unique_name);
+  gz::rendering::VisualPtr ign_link_collisions = scene.CreateVisual(entity.id, entity.unique_name);
 
   for (const auto& collision : link.collision)
     ign_link_collisions->AddChild(loadLinkGeometry(
@@ -353,10 +334,10 @@ std::shared_ptr<gz::rendering::Visual> loadLinkCollisions(gz::rendering::Scene& 
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual> loadLinkWireBox(gz::rendering::Scene& scene,
-                                                       EntityContainer& entity_container,
-                                                       const tesseract_scene_graph::Link& link,
-                                                       const gz::math::AxisAlignedBox& aabb)
+gz::rendering::VisualPtr loadLinkWireBox(gz::rendering::Scene& scene,
+                                         EntityContainer& entity_container,
+                                         const tesseract_scene_graph::Link& link,
+                                         const gz::math::AxisAlignedBox& aabb)
 {
   std::string name = link.getName() + "::WireBox";
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, name);
@@ -375,7 +356,7 @@ std::shared_ptr<gz::rendering::Visual> loadLinkWireBox(gz::rendering::Scene& sce
   wire_box->SetBox(aabb);
 
   // Create visual and add wire box
-  std::shared_ptr<gz::rendering::Visual> wire_box_vis = scene.CreateVisual(entity.id, entity.unique_name);
+  gz::rendering::VisualPtr wire_box_vis = scene.CreateVisual(entity.id, entity.unique_name);
   wire_box_vis->SetInheritScale(false);
   wire_box_vis->AddGeometry(wire_box);
   wire_box_vis->SetMaterial(white, false);
@@ -385,9 +366,9 @@ std::shared_ptr<gz::rendering::Visual> loadLinkWireBox(gz::rendering::Scene& sce
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual> loadLinkAxis(gz::rendering::Scene& scene,
-                                                    EntityContainer& entity_container,
-                                                    const tesseract_scene_graph::Link& link)
+gz::rendering::VisualPtr loadLinkAxis(gz::rendering::Scene& scene,
+                                      EntityContainer& entity_container,
+                                      const tesseract_scene_graph::Link& link)
 {
   std::string name = link.getName() + "::Axis";
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, name);
@@ -401,13 +382,12 @@ std::shared_ptr<gz::rendering::Visual> loadLinkAxis(gz::rendering::Scene& scene,
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual>
-loadLinkGeometry(gz::rendering::Scene& scene,
-                 tesseract_gui::EntityContainer& entity_container,
-                 const tesseract_geometry::Geometry& geometry,
-                 const Eigen::Vector3d& scale,
-                 const Eigen::Isometry3d& local_pose,
-                 const std::shared_ptr<const tesseract_scene_graph::Material>& material)
+gz::rendering::VisualPtr loadLinkGeometry(gz::rendering::Scene& scene,
+                                          tesseract_gui::EntityContainer& entity_container,
+                                          const tesseract_geometry::Geometry& geometry,
+                                          const Eigen::Vector3d& scale,
+                                          const Eigen::Isometry3d& local_pose,
+                                          const tesseract_scene_graph::Material::ConstPtr& material)
 {
   gz::rendering::MaterialPtr ign_material = loadMaterial(scene, material);
   switch (geometry.getType())
@@ -415,7 +395,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
     case tesseract_geometry::GeometryType::BOX:
     {
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> box = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr box = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       box->SetLocalPose(gz::math::eigen3::convert(local_pose));
       box->AddGeometry(scene.CreateBox());
 
@@ -427,7 +407,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
     case tesseract_geometry::GeometryType::SPHERE:
     {
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> sphere = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr sphere = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       sphere->SetLocalPose(gz::math::eigen3::convert(local_pose));
       sphere->AddGeometry(scene.CreateSphere());
 
@@ -440,7 +420,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
     case tesseract_geometry::GeometryType::CYLINDER:
     {
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> cylinder = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr cylinder = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       cylinder->SetLocalPose(gz::math::eigen3::convert(local_pose));
       cylinder->AddGeometry(scene.CreateCylinder());
 
@@ -453,7 +433,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
     case tesseract_geometry::GeometryType::CONE:
     {
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> cone = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr cone = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       cone->SetLocalPose(gz::math::eigen3::convert(local_pose));
       cone->AddGeometry(scene.CreateCone());
 
@@ -466,7 +446,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
     case tesseract_geometry::GeometryType::CAPSULE:
     {
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> capsule = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr capsule = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       capsule->SetLocalPose(gz::math::eigen3::convert(local_pose));
       // Capsule is a special shape and should not use scale to change the size of the shape
       gz::rendering::CapsulePtr geom = scene.CreateCapsule();
@@ -483,7 +463,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
       auto resource = shape.getResource();
 
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> mesh = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr mesh = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       mesh->SetLocalPose(gz::math::eigen3::convert(local_pose));
       gz::common::MeshManager* mesh_manager = gz::common::MeshManager::Instance();
       gz::rendering::MeshPtr mesh_geom;
@@ -531,7 +511,7 @@ loadLinkGeometry(gz::rendering::Scene& scene,
       const auto& shape = static_cast<const tesseract_geometry::ConvexMesh&>(geometry);
       auto resource = shape.getResource();
       auto gv_entity = entity_container.addUntrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS);
-      std::shared_ptr<gz::rendering::Visual> mesh = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
+      gz::rendering::VisualPtr mesh = scene.CreateVisual(gv_entity.id, gv_entity.unique_name);
       mesh->SetLocalPose(gz::math::eigen3::convert(local_pose));
       gz::common::MeshManager* mesh_manager = gz::common::MeshManager::Instance();
       gz::rendering::MeshPtr mesh_geom;
@@ -594,17 +574,16 @@ loadLinkGeometry(gz::rendering::Scene& scene,
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Material>
-loadMaterial(gz::rendering::Scene& scene, const std::shared_ptr<const tesseract_scene_graph::Material>& material)
+gz::rendering::MaterialPtr loadMaterial(gz::rendering::Scene& scene,
+                                        const tesseract_scene_graph::Material::ConstPtr& material)
 {
   if (material == nullptr)
   {
-    auto default_material = tesseract_scene_graph::Material::getDefaultMaterial();
-    const Eigen::Vector4d& rgba = default_material->color;
-    auto ign_material = scene.Material(default_material->getName());
+    const Eigen::Vector4d& rgba = tesseract_scene_graph::DEFAULT_TESSERACT_MATERIAL->color;
+    auto ign_material = scene.Material(tesseract_scene_graph::DEFAULT_TESSERACT_MATERIAL->getName());
     if (ign_material == nullptr)
     {
-      ign_material = scene.CreateMaterial(default_material->getName());
+      ign_material = scene.CreateMaterial(tesseract_scene_graph::DEFAULT_TESSERACT_MATERIAL->getName());
       ign_material->SetAmbient(rgba(0), rgba(1), rgba(2), rgba(3));
       ign_material->SetDiffuse(rgba(0), rgba(1), rgba(2), rgba(3));
       ign_material->SetSpecular(rgba(0), rgba(1), rgba(2), rgba(3));
@@ -630,14 +609,13 @@ loadMaterial(gz::rendering::Scene& scene, const std::shared_ptr<const tesseract_
 }
 
 //////////////////////////////////////////////////
-std::shared_ptr<gz::rendering::Visual>
-loadContactResults(gz::rendering::Scene& scene,
-                   EntityContainer& entity_container,
-                   const tesseract_collision::ContactResultVector& contact_results)
+gz::rendering::VisualPtr loadContactResults(gz::rendering::Scene& scene,
+                                            EntityContainer& entity_container,
+                                            const tesseract_collision::ContactResultVector& contact_results)
 {
   std::string name = "ContactResults";
   auto entity = entity_container.addTrackedEntity(tesseract_gui::EntityContainer::VISUAL_NS, name);
-  std::shared_ptr<gz::rendering::Visual> ign_visual = scene.CreateVisual(entity.id, entity.unique_name);
+  gz::rendering::VisualPtr ign_visual = scene.CreateVisual(entity.id, entity.unique_name);
   for (const auto& cr : contact_results)
   {
     // For some reason the ignition arrow default length is 0.75m

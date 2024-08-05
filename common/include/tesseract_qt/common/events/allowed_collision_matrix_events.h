@@ -25,10 +25,13 @@
 
 #include <memory>
 #include <vector>
-#include <tesseract_common/fwd.h>
-
 #include <tesseract_qt/common/events/event_type.h>
 #include <tesseract_qt/common/events/component_events.h>
+
+namespace tesseract_common
+{
+class AllowedCollisionMatrix;
+}
 
 namespace tesseract_gui::events
 {

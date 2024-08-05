@@ -23,6 +23,8 @@
 #ifndef TESSERACT_QT_COLLISION_CONTACT_RESULTS_MODEL_H
 #define TESSERACT_QT_COLLISION_CONTACT_RESULTS_MODEL_H
 
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
 #ifndef Q_MOC_RUN
 #include <QStandardItemModel>
 #include <QMetaType>
@@ -30,10 +32,11 @@
 
 #include <tesseract_qt/common/contact_results_types.h>
 #endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class ContactResultsModel : public QStandardItemModel
 {
   Q_OBJECT
@@ -46,6 +49,9 @@ public:
   bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
 
 protected:
+  struct Implementation;
+  std::unique_ptr<Implementation> data_;
+
   void setContactResults(const QString& ns, const ContactResultVector& contact_results);
   void setContactResults(const QString& ns, const ContactResultMap& contact_results);
   void removeNamespace(const QString& ns);
@@ -53,10 +59,6 @@ protected:
 
   // Documentation inherited
   bool eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-  struct Implementation;
-  std::unique_ptr<Implementation> data_;
 };
 }  // namespace tesseract_gui
 

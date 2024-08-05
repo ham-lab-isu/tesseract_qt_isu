@@ -27,13 +27,8 @@
 #define TESSERACT_QT_COMMON_TOOL_PATH_POSE_H
 
 #include <string>
-#include <Eigen/Geometry>
 #include <boost/uuid/uuid.hpp>
-
-#include <boost/serialization/access.hpp>
-#include <boost/serialization/export.hpp>
-
-#include <tesseract_common/fwd.h>
+#include <tesseract_common/serialization.h>
 
 namespace tesseract_gui
 {
@@ -105,6 +100,8 @@ protected:
 
 }  // namespace tesseract_gui
 
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/tracking.hpp>
 BOOST_CLASS_EXPORT_KEY2(tesseract_gui::ToolPathPose, "ToolPathPose")
 
 #endif  // TESSERACT_QT_COMMON_TOOL_PATH_POSE_H

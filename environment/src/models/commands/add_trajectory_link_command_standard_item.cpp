@@ -26,12 +26,10 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_environment/commands/add_trajectory_link_command.h>
-
 namespace tesseract_gui
 {
 AddTrajectoryLinkCommandStandardItem::AddTrajectoryLinkCommandStandardItem(
-    std::shared_ptr<const tesseract_environment::AddTrajectoryLinkCommand> command)
+    tesseract_environment::AddTrajectoryLinkCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), "Add Trajectory Link"), command(std::move(command))
 {
   ctor();
@@ -39,7 +37,7 @@ AddTrajectoryLinkCommandStandardItem::AddTrajectoryLinkCommandStandardItem(
 
 AddTrajectoryLinkCommandStandardItem::AddTrajectoryLinkCommandStandardItem(
     const QString& text,
-    std::shared_ptr<const tesseract_environment::AddTrajectoryLinkCommand> command)
+    tesseract_environment::AddTrajectoryLinkCommand::ConstPtr command)
   : QStandardItem(icons::getCommandEntryIcon(), text), command(std::move(command))
 {
   ctor();
@@ -48,7 +46,7 @@ AddTrajectoryLinkCommandStandardItem::AddTrajectoryLinkCommandStandardItem(
 AddTrajectoryLinkCommandStandardItem::AddTrajectoryLinkCommandStandardItem(
     const QIcon& icon,
     const QString& text,
-    std::shared_ptr<const tesseract_environment::AddTrajectoryLinkCommand> command)
+    tesseract_environment::AddTrajectoryLinkCommand::ConstPtr command)
   : QStandardItem(icon, text), command(std::move(command))
 {
   ctor();

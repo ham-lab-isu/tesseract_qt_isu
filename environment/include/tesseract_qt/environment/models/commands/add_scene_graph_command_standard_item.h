@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_ADD_SCENE_GRAPH_COMMAND_STANDARD_ITEM_H
 #define TESSERACT_QT_ENVIRONMENT_ADD_SCENE_GRAPH_COMMAND_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_environment/commands/add_scene_graph_command.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,15 +37,15 @@ namespace tesseract_gui
 class AddSceneGraphCommandStandardItem : public QStandardItem
 {
 public:
-  explicit AddSceneGraphCommandStandardItem(std::shared_ptr<const tesseract_environment::AddSceneGraphCommand> command);
+  explicit AddSceneGraphCommandStandardItem(tesseract_environment::AddSceneGraphCommand::ConstPtr command);
   explicit AddSceneGraphCommandStandardItem(const QString& text,
-                                            std::shared_ptr<const tesseract_environment::AddSceneGraphCommand> command);
+                                            tesseract_environment::AddSceneGraphCommand::ConstPtr command);
   explicit AddSceneGraphCommandStandardItem(const QIcon& icon,
                                             const QString& text,
-                                            std::shared_ptr<const tesseract_environment::AddSceneGraphCommand> command);
+                                            tesseract_environment::AddSceneGraphCommand::ConstPtr command);
   int type() const override;
 
-  std::shared_ptr<const tesseract_environment::AddSceneGraphCommand> command;
+  tesseract_environment::AddSceneGraphCommand::ConstPtr command;
 
 private:
   void ctor();

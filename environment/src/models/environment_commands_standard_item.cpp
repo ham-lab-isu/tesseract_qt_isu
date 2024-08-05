@@ -46,8 +46,6 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_environment/commands.h>
-
 namespace tesseract_gui
 {
 EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem() : QStandardItem(icons::getCubeIcon(), "Commands")
@@ -55,25 +53,22 @@ EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem() : QStandardIt
   ctor();
 }
 
-EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(
-    std::vector<std::shared_ptr<const tesseract_environment::Command>> commands)
+EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(tesseract_environment::Commands commands)
   : QStandardItem(icons::getCubeIcon(), "Commands"), commands_(std::move(commands))
 {
   ctor();
 }
 
-EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(
-    const QString& text,
-    std::vector<std::shared_ptr<const tesseract_environment::Command>> commands)
+EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(const QString& text,
+                                                                 tesseract_environment::Commands commands)
   : QStandardItem(icons::getCubeIcon(), text), commands_(std::move(commands))
 {
   ctor();
 }
 
-EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(
-    const QIcon& icon,
-    const QString& text,
-    std::vector<std::shared_ptr<const tesseract_environment::Command>> commands)
+EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(const QIcon& icon,
+                                                                 const QString& text,
+                                                                 tesseract_environment::Commands commands)
   : QStandardItem(icon, text), commands_(std::move(commands))
 {
   ctor();
@@ -81,18 +76,13 @@ EnvironmentCommandsStandardItem::EnvironmentCommandsStandardItem(
 
 int EnvironmentCommandsStandardItem::type() const { return static_cast<int>(StandardItemType::ENV_COMMAND_COMMANDS); }
 
-void EnvironmentCommandsStandardItem::appendCommand(
-    const std::shared_ptr<const tesseract_environment::Command>& command)
+void EnvironmentCommandsStandardItem::appendCommand(const tesseract_environment::Command::ConstPtr& command)
 {
   addCommand(QString("[%1]").arg(commands_.size()), command);
   commands_.push_back(command);
 }
 
-const std::vector<std::shared_ptr<const tesseract_environment::Command>>&
-EnvironmentCommandsStandardItem::getCommands() const
-{
-  return commands_;
-}
+const tesseract_environment::Commands& EnvironmentCommandsStandardItem::getCommands() const { return commands_; }
 
 void EnvironmentCommandsStandardItem::ctor()
 {
@@ -101,7 +91,7 @@ void EnvironmentCommandsStandardItem::ctor()
 }
 
 void EnvironmentCommandsStandardItem::addCommand(const QString& text,
-                                                 const std::shared_ptr<const tesseract_environment::Command>& command)
+                                                 const tesseract_environment::Command::ConstPtr& command)
 {
   switch (command->getType())
   {

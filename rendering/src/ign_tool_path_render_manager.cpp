@@ -36,7 +36,6 @@
 #include <gz/rendering/ArrowVisual.hh>
 #include <gz/math/eigen3/Conversions.hh>
 
-#include <tesseract_scene_graph/scene_state.h>
 #include <tesseract_environment/environment.h>
 
 #include <boost/uuid/uuid.hpp>

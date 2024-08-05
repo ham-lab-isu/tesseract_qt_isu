@@ -15,10 +15,9 @@
  *
  */
 
-#include <QGuiApplication>
-
 #include <string>
 #include <mutex>
+#include <QGuiApplication>
 
 #include <gz/common/MouseEvent.hh>
 #include <gz/common/Console.hh>

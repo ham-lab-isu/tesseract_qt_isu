@@ -23,15 +23,13 @@
 #ifndef TESSERACT_GUI_COMMON_ENVIRONMENT_MANAGER_H
 #define TESSERACT_GUI_COMMON_ENVIRONMENT_MANAGER_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
 #include <mutex>
 #include <map>
-#endif
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class EnvironmentWrapper;
 
 /**

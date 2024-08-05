@@ -21,12 +21,11 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#include <map>
+#include <unordered_map>
 #include <tesseract_qt/common/environment_manager.h>
 #include <tesseract_qt/common/environment_wrapper.h>
 #include <tesseract_qt/common/component_info.h>
-
-#include <map>
-#include <unordered_map>
 #include <shared_mutex>
 
 namespace tesseract_gui

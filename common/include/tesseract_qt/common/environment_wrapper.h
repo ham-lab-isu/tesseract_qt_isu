@@ -23,15 +23,19 @@
 #ifndef TESSERACT_GUI_COMMON_ENVIRONMENT_WRAPPER_H
 #define TESSERACT_GUI_COMMON_ENVIRONMENT_WRAPPER_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
-#include <tesseract_environment/fwd.h>
 #include <QObject>
-#endif
+
+namespace tesseract_environment
+{
+class Environment;
+class EnvironmentMonitor;
+class Event;
+}  // namespace tesseract_environment
 
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class EnvironmentWrapper : public QObject
 {
   Q_OBJECT

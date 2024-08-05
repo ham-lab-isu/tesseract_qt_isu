@@ -24,17 +24,15 @@
 #include <tesseract_qt/common/models/standard_item_utils.h>
 #include <tesseract_qt/common/models/standard_item_type.h>
 
-#include <tesseract_scene_graph/joint.h>
-
 namespace tesseract_gui
 {
-MimicStandardItem::MimicStandardItem(std::shared_ptr<tesseract_scene_graph::JointMimic> mimic)
+MimicStandardItem::MimicStandardItem(tesseract_scene_graph::JointMimic::Ptr mimic)
   : QStandardItem("Mimic"), mimic(std::move(mimic))
 {
   ctor();
 }
 
-MimicStandardItem::MimicStandardItem(const QString& text, std::shared_ptr<tesseract_scene_graph::JointMimic> mimic)
+MimicStandardItem::MimicStandardItem(const QString& text, tesseract_scene_graph::JointMimic::Ptr mimic)
   : QStandardItem(text), mimic(std::move(mimic))
 {
   ctor();
@@ -42,7 +40,7 @@ MimicStandardItem::MimicStandardItem(const QString& text, std::shared_ptr<tesser
 
 MimicStandardItem::MimicStandardItem(const QIcon& icon,
                                      const QString& text,
-                                     std::shared_ptr<tesseract_scene_graph::JointMimic> mimic)
+                                     tesseract_scene_graph::JointMimic::Ptr mimic)
   : QStandardItem(icon, text), mimic(std::move(mimic))
 {
   ctor();

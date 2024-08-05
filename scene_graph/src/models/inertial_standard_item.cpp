@@ -25,25 +25,22 @@
 #include <tesseract_qt/common/models/standard_item_utils.h>
 #include <tesseract_qt/common/models/standard_item_type.h>
 
-#include <tesseract_scene_graph/link.h>
-
 namespace tesseract_gui
 {
-InertialStandardItem::InertialStandardItem(std::shared_ptr<tesseract_scene_graph::Inertial> inertial)
+InertialStandardItem::InertialStandardItem(tesseract_scene_graph::Inertial::Ptr inertial)
   : QStandardItem("Inertial"), inertial(std::move(inertial))
 {
   ctor();
 }
 
-InertialStandardItem::InertialStandardItem(const QString& text,
-                                           std::shared_ptr<tesseract_scene_graph::Inertial> inertial)
+InertialStandardItem::InertialStandardItem(const QString& text, tesseract_scene_graph::Inertial::Ptr inertial)
   : QStandardItem(text), inertial(std::move(inertial))
 {
   ctor();
 }
 InertialStandardItem::InertialStandardItem(const QIcon& icon,
                                            const QString& text,
-                                           std::shared_ptr<tesseract_scene_graph::Inertial> inertial)
+                                           tesseract_scene_graph::Inertial::Ptr inertial)
   : QStandardItem(icon, text), inertial(std::move(inertial))
 {
   ctor();

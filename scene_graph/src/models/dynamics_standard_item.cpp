@@ -25,25 +25,22 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_scene_graph/joint.h>
-
 namespace tesseract_gui
 {
-DynamicsStandardItem::DynamicsStandardItem(std::shared_ptr<tesseract_scene_graph::JointDynamics> dynamics)
+DynamicsStandardItem::DynamicsStandardItem(tesseract_scene_graph::JointDynamics::Ptr dynamics)
   : QStandardItem(icons::getDynamicsIcon(), "Dynamics"), dynamics(std::move(dynamics))
 {
   ctor();
 }
 
-DynamicsStandardItem::DynamicsStandardItem(const QString& text,
-                                           std::shared_ptr<tesseract_scene_graph::JointDynamics> dynamics)
+DynamicsStandardItem::DynamicsStandardItem(const QString& text, tesseract_scene_graph::JointDynamics::Ptr dynamics)
   : QStandardItem(icons::getDynamicsIcon(), text), dynamics(std::move(dynamics))
 {
   ctor();
 }
 DynamicsStandardItem::DynamicsStandardItem(const QIcon& icon,
                                            const QString& text,
-                                           std::shared_ptr<tesseract_scene_graph::JointDynamics> dynamics)
+                                           tesseract_scene_graph::JointDynamics::Ptr dynamics)
   : QStandardItem(icon, text), dynamics(std::move(dynamics))
 {
   ctor();

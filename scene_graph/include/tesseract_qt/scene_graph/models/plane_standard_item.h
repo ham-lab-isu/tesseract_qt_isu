@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_SCENE_GRAPH_PLANE_STANDARD_ITEM_H
 #define TESSERACT_QT_SCENE_GRAPH_PLANE_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_geometry/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_geometry/impl/plane.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -33,12 +37,12 @@ namespace tesseract_gui
 class PlaneStandardItem : public QStandardItem
 {
 public:
-  PlaneStandardItem(std::shared_ptr<const tesseract_geometry::Plane> plane);
-  explicit PlaneStandardItem(const QString& text, std::shared_ptr<const tesseract_geometry::Plane> plane);
-  PlaneStandardItem(const QIcon& icon, const QString& text, std::shared_ptr<const tesseract_geometry::Plane> plane);
+  PlaneStandardItem(tesseract_geometry::Plane::ConstPtr plane);
+  explicit PlaneStandardItem(const QString& text, tesseract_geometry::Plane::ConstPtr plane);
+  PlaneStandardItem(const QIcon& icon, const QString& text, tesseract_geometry::Plane::ConstPtr plane);
   int type() const override;
 
-  std::shared_ptr<const tesseract_geometry::Plane> plane;
+  tesseract_geometry::Plane::ConstPtr plane;
 
 private:
   void ctor();

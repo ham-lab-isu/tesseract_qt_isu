@@ -23,9 +23,8 @@
 #ifndef TESSERACT_QT_COLLISION_CONTACT_RESULTS_TYPES_H
 #define TESSERACT_QT_COLLISION_CONTACT_RESULTS_TYPES_H
 
-#include <tesseract_collision/core/types.h>
-
 #include <tesseract_qt/common/tracked_object.h>
+#include <tesseract_collision/core/types.h>
 
 namespace tesseract_gui
 {

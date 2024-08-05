@@ -23,8 +23,12 @@
 #ifndef TESSERACT_QT_ENVIRONMENT_CHANGE_COLLISION_MARGINS_COMMAND_STANDARD_ITEM_H
 #define TESSERACT_QT_ENVIRONMENT_CHANGE_COLLISION_MARGINS_COMMAND_STANDARD_ITEM_H
 
-#include <memory>
-#include <tesseract_environment/fwd.h>
+#include <tesseract_common/macros.h>
+TESSERACT_COMMON_IGNORE_WARNINGS_PUSH
+#ifndef Q_MOC_RUN
+#include <tesseract_environment/commands/change_collision_margins_command.h>
+#endif
+TESSERACT_COMMON_IGNORE_WARNINGS_POP
 
 #include <QStandardItem>
 
@@ -34,17 +38,17 @@ class ChangeCollisionMarginsCommandStandardItem : public QStandardItem
 {
 public:
   explicit ChangeCollisionMarginsCommandStandardItem(
-      std::shared_ptr<const tesseract_environment::ChangeCollisionMarginsCommand> command);
+      tesseract_environment::ChangeCollisionMarginsCommand::ConstPtr command);
   explicit ChangeCollisionMarginsCommandStandardItem(
       const QString& text,
-      std::shared_ptr<const tesseract_environment::ChangeCollisionMarginsCommand> command);
+      tesseract_environment::ChangeCollisionMarginsCommand::ConstPtr command);
   explicit ChangeCollisionMarginsCommandStandardItem(
       const QIcon& icon,
       const QString& text,
-      std::shared_ptr<const tesseract_environment::ChangeCollisionMarginsCommand> command);
+      tesseract_environment::ChangeCollisionMarginsCommand::ConstPtr command);
   int type() const override;
 
-  std::shared_ptr<const tesseract_environment::ChangeCollisionMarginsCommand> command;
+  tesseract_environment::ChangeCollisionMarginsCommand::ConstPtr command;
 
 private:
   void ctor();

@@ -29,8 +29,6 @@
 #include <tesseract_qt/common/models/standard_item_type.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_scene_graph/link.h>
-
 namespace tesseract_gui
 {
 class LinkStandardItem::Implementation
@@ -40,15 +38,13 @@ public:
   QStandardItem* visuals_item{ nullptr };
 };
 
-LinkStandardItem::LinkStandardItem(std::shared_ptr<tesseract_scene_graph::Link> link, bool checkable)
+LinkStandardItem::LinkStandardItem(tesseract_scene_graph::Link::Ptr link, bool checkable)
   : QStandardItem(icons::getLinkIcon(), "Link"), link(std::move(link)), data_(std::make_unique<Implementation>())
 {
   ctor(checkable);
 }
 
-LinkStandardItem::LinkStandardItem(const QString& text,
-                                   std::shared_ptr<tesseract_scene_graph::Link> link,
-                                   bool checkable)
+LinkStandardItem::LinkStandardItem(const QString& text, tesseract_scene_graph::Link::Ptr link, bool checkable)
   : QStandardItem(icons::getLinkIcon(), text), link(std::move(link)), data_(std::make_unique<Implementation>())
 {
   ctor(checkable);
@@ -56,7 +52,7 @@ LinkStandardItem::LinkStandardItem(const QString& text,
 
 LinkStandardItem::LinkStandardItem(const QIcon& icon,
                                    const QString& text,
-                                   std::shared_ptr<tesseract_scene_graph::Link> link,
+                                   tesseract_scene_graph::Link::Ptr link,
                                    bool checkable)
   : QStandardItem(icon, text), link(std::move(link)), data_(std::make_unique<Implementation>())
 {

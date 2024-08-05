@@ -20,28 +20,26 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-#ifndef TESSERACT_QT_PLANNING_TASK_COMPOSER_TASK_COMPOSER_KEYS_STANDARD_ITEM_H
-#define TESSERACT_QT_PLANNING_TASK_COMPOSER_TASK_COMPOSER_KEYS_STANDARD_ITEM_H
-
-#include <tesseract_task_composer/core/fwd.h>
+#ifndef TESSERACT_QT_PLANNING_TASK_COMPOSER_STANDARD_ITEM_UTILS_H
+#define TESSERACT_QT_PLANNING_TASK_COMPOSER_STANDARD_ITEM_UTILS_H
 
 #include <QStandardItem>
+#include <QList>
+
+namespace tesseract_common
+{
+class AnyPoly;
+}
 
 namespace tesseract_gui
 {
-class TaskComposerKeysStandardItem : public QStandardItem
-{
-public:
-  explicit TaskComposerKeysStandardItem(const tesseract_planning::TaskComposerKeys& data);
-  TaskComposerKeysStandardItem(const QString& text, const tesseract_planning::TaskComposerKeys& data);
-  TaskComposerKeysStandardItem(const QIcon& icon,
-                               const QString& text,
-                               const tesseract_planning::TaskComposerKeys& data);
-  int type() const override;
+/**
+ * @brief This will return a standard item anything stored in the AnyPoly.
+ * @param any_poly The any poly to create a standard item
+ * @return A standard item representation of the AnyPoly
+ */
+QList<QStandardItem*> createStandardItemAnyPoly(const QString& key, const tesseract_common::AnyPoly& any_poly);
 
-private:
-  void ctor(const tesseract_planning::TaskComposerKeys& data);
-};
 }  // namespace tesseract_gui
 
-#endif  // TESSERACT_QT_PLANNING_TASK_COMPOSER_TASK_COMPOSER_KEYS_STANDARD_ITEM_H
+#endif  // TESSERACT_QT_PLANNING_TASK_COMPOSER_STANDARD_ITEM_UTILS_H

@@ -23,9 +23,7 @@
 #ifndef TESSERACT_GUI_COMMON_COMPONENT_INFO_DIALOG_H
 #define TESSERACT_GUI_COMMON_COMPONENT_INFO_DIALOG_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
-#endif
 
 #include <QDialog>
 

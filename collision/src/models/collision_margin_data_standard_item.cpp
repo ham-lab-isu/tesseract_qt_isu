@@ -25,12 +25,10 @@
 #include <tesseract_qt/common/models/standard_item_utils.h>
 #include <tesseract_qt/common/icon_utils.h>
 
-#include <tesseract_common/collision_margin_data.h>
-
 namespace tesseract_gui
 {
 CollisionMarginDataStandardItem::CollisionMarginDataStandardItem(
-    const tesseract_common::CollisionMarginData& collision_margin_data)
+    const tesseract_collision::CollisionMarginData& collision_margin_data)
   : QStandardItem(icons::getCollisionIcon(), "Contact Request")
 {
   ctor(collision_margin_data);
@@ -38,7 +36,7 @@ CollisionMarginDataStandardItem::CollisionMarginDataStandardItem(
 
 CollisionMarginDataStandardItem::CollisionMarginDataStandardItem(
     const QString& text,
-    const tesseract_common::CollisionMarginData& collision_margin_data)
+    const tesseract_collision::CollisionMarginData& collision_margin_data)
   : QStandardItem(icons::getCollisionIcon(), text)
 {
   ctor(collision_margin_data);
@@ -47,7 +45,7 @@ CollisionMarginDataStandardItem::CollisionMarginDataStandardItem(
 CollisionMarginDataStandardItem::CollisionMarginDataStandardItem(
     const QIcon& icon,
     const QString& text,
-    const tesseract_common::CollisionMarginData& collision_margin_data)
+    const tesseract_collision::CollisionMarginData& collision_margin_data)
   : QStandardItem(icon, text)
 {
   ctor(collision_margin_data);
@@ -58,7 +56,7 @@ int CollisionMarginDataStandardItem::type() const
   return static_cast<int>(StandardItemType::COLLISION_COLLISION_MARGIN_DATA);
 }
 
-void CollisionMarginDataStandardItem::ctor(const tesseract_common::CollisionMarginData& collision_margin_data)
+void CollisionMarginDataStandardItem::ctor(const tesseract_collision::CollisionMarginData& collision_margin_data)
 {
   appendRow(createStandardItemFloat("default margin", collision_margin_data.getDefaultCollisionMargin()));
   appendRow(createStandardItemFloat("max margin", collision_margin_data.getMaxCollisionMargin()));

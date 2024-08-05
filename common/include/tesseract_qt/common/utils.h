@@ -25,7 +25,10 @@
 
 #include <vector>
 #include <string>
-#include <tesseract_common/filesystem.h>
+
+#include <tesseract_common/types.h>
+#include <tesseract_common/allowed_collision_matrix.h>
+#include <tesseract_collision/core/discrete_contact_manager.h>
 
 class QMainWindow;
 class QMenuBar;

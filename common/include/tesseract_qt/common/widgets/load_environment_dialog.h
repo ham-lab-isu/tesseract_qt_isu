@@ -23,20 +23,21 @@
 #ifndef TESSERACT_GUI_COMMON_LOAD_ENVIRONMENT_DIALOG_H
 #define TESSERACT_GUI_COMMON_LOAD_ENVIRONMENT_DIALOG_H
 
-#ifndef Q_MOC_RUN
 #include <memory>
-#include <tesseract_common/fwd.h>
 #include <QDialog>
-#endif
 
 namespace Ui
 {
 class LoadEnvironmentDialog;
 }
 
+namespace tesseract_common
+{
+class ResourceLocator;
+}
 namespace tesseract_gui
 {
-class ComponentInfo;
+struct ComponentInfo;
 class LoadEnvironmentDialog : public QDialog
 {
   Q_OBJECT
